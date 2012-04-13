@@ -15,4 +15,4 @@
 (ido-mode t)
 
 (package-initialize)
-(load-theme 'sanityinc-solarized-dark t)
+(load-theme 'solarized-dark t)
