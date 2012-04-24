@@ -11,7 +11,7 @@
 (line-number-mode t)
 (column-number-mode t)
 (menu-bar-mode -1)
-(linum-mode t)
+(global-linum-mode 1)
 (ido-mode t)
 
 (package-initialize)
