@@ -2,6 +2,12 @@
 (setq *emacs-config-directory*
       (file-name-directory (file-chase-links (expand-file-name "~/.emacs"))))
 
+(setq *packages-directory*
+      (expand-file-name "elpa" *emacs-config-directory*))
+
+(setq *packages-links-directory*
+      (expand-file-name "links" *packages-directory*))
+
 ;; Mode specific configurations live here
 (setq *configs-directory*
       (expand-file-name "configs" *emacs-config-directory*))
