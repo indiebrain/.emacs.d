@@ -16,4 +16,3 @@
 (ido-mode t)
 
 (package-initialize)
-(load-theme 'solarized-dark t)
