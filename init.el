@@ -16,4 +16,7 @@
 (global-linum-mode 1)
 (ido-mode t)
 
+(if (window-system)
+    (load-theme 'tango-dark))
+
 (package-initialize)
