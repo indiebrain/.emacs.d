@@ -18,5 +18,6 @@
 
 (if (window-system)
     (load-theme 'tango-dark))
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (package-initialize)
