@@ -14,13 +14,20 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (global-linum-mode 1)
-(ido-mode t)
+;;(ido-mode t)
 
-(if (window-system)
-    (load-theme 'tango-dark))
+(defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
+  "Create parent directory if not exists while visiting file."
+  (unless (file-exists-p filename)
+    (let ((dir (file-name-directory filename)))
+      (unless (file-exists-p dir)
+        (make-directory dir)))))
+
 (defun save-all ()
+  "Save all open buffers"
     (interactive)
     (save-some-buffers t))
+
  (add-hook 'focus-out-hook 'save-all)
 
 (defadvice switch-to-buffer (before save-buffer-now activate)
@@ -29,5 +36,3 @@
   (when buffer-file-name (save-all)))
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
-
-(package-initialize)
