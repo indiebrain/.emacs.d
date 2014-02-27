@@ -18,6 +18,16 @@
 
 (if (window-system)
     (load-theme 'tango-dark))
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(defun save-all ()
+    (interactive)
+    (save-some-buffers t))
+ (add-hook 'focus-out-hook 'save-all)
+
+(defadvice switch-to-buffer (before save-buffer-now activate)
+  (when buffer-file-name (save-all)))
+(defadvice other-window (before other-window-now activate)
+  (when buffer-file-name (save-all)))
+
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 (package-initialize)
