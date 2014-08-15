@@ -2,7 +2,7 @@
 
 ;; Add the original Emacs Lisp Package Archive
 (add-to-list 'package-archives
-             '("elpa" . "http://tromey.com/elpa/"))
+             '("elpa" . "http://elpa.gnu.org/packages/"))
 
 ;; Add the user-contributed repositories
 (add-to-list 'package-archives
