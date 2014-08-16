@@ -14,7 +14,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (global-linum-mode 1)
-;;(ido-mode t)
+(ido-mode t)
 
 (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
   "Create parent directory if not exists while visiting file."
