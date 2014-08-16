@@ -13,9 +13,9 @@
 ; list the packages you want
 (setq package-list
       '(auto-complete
+        rspec-mode
         enh-ruby-mode
-        color-theme
-        color-theme-solarized))
+        heroku-theme))
 
 ;; initalize the package system
 (package-initialize)
