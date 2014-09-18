@@ -14,6 +14,7 @@
 (setq package-list
       '(auto-complete
         flx-ido
+        js2-mode
         projectile
         rspec-mode
         enh-ruby-mode
