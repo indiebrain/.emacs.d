@@ -12,9 +12,10 @@
 (line-number-mode t)
 (column-number-mode t)
 (menu-bar-mode -1)
-(tool-bar-mode -1)
-(global-linum-mode 1)
-(ido-mode t)
+
+(when window-system
+  (tool-bar-mode -1)
+  (global-linum-mode 1))
 
 (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
   "Create parent directory if not exists while visiting file."
