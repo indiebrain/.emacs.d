@@ -13,6 +13,8 @@
 ; list the packages you want
 (setq package-list
       '(auto-complete
+        flx-ido
+        projectile
         rspec-mode
         enh-ruby-mode
         heroku-theme))
