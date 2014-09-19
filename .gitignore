@@ -2,3 +2,5 @@ auto-save-list/*
 elpa/*
 ido.last
 ac-comphist.dat
+projectile-bookmarks.eld
+projectile.cache
