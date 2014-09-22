@@ -1,1 +1,1 @@
-(load-theme 'heroku t)
+(load-theme 'gruvbox t)

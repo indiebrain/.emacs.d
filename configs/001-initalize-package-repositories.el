@@ -13,12 +13,13 @@
 ; list the packages you want
 (setq package-list
       '(auto-complete
+        gruvbox-theme
         flx-ido
         js2-mode
-        projectile
         rspec-mode
         enh-ruby-mode
-        heroku-theme))
+        projectile
+        projectile-rails))
 
 ;; initalize the package system
 (package-initialize)

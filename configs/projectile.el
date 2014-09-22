@@ -2,3 +2,4 @@
 (projectile-global-mode)
 (setq projectile-indexing-method 'native)
 (setq projectile-completion-system 'ido)
+
