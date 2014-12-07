@@ -15,7 +15,11 @@
 
 (when window-system
   (tool-bar-mode -1)
-  (global-linum-mode 1))
+  (global-linum-mode 1)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+  (setq mouse-wheel-progressive-speed nil)
+  (setq mouse-wheel-follow-mouse 't)
+  (setq scroll-step 1))
 
 (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
   "Create parent directory if not exists while visiting file."
