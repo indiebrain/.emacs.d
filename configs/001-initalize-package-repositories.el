@@ -13,13 +13,14 @@
 ; list the packages you want
 (setq package-list
       '(auto-complete
+        enh-ruby-mode
         gruvbox-theme
         flx-ido
         js2-mode
-        rspec-mode
-        enh-ruby-mode
         projectile
-        projectile-rails))
+        projectile-rails
+        rspec-mode
+        scss-mode))
 
 ;; initalize the package system
 (package-initialize)
