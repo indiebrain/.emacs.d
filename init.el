@@ -41,3 +41,22 @@
   (when buffer-file-name (save-all)))
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
+
+;; environment setup
+;; The root of the emacs configuration directory
+(setq *emacs-config-directory*
+      (file-name-directory (file-chase-links (expand-file-name "~/.emacs.d/init.el"))))
+
+(setq *packages-directory*
+      (expand-file-name "elpa" *emacs-config-directory*))
+
+(setq *packages-links-directory*
+      (expand-file-name "links" *packages-directory*))
+
+;; Mode specific configurations live here
+(setq *configs-directory*
+      (expand-file-name "configs" *emacs-config-directory*))
+
+;; Load configurations
+(let ((config-files (directory-files *configs-directory* nil "\\w+.el$")))
+  (mapc #'(lambda (x) (load-file (expand-file-name x *configs-directory*))) config-files))
