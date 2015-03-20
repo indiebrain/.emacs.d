@@ -20,7 +20,8 @@
         projectile
         projectile-rails
         rspec-mode
-        scss-mode))
+        scss-mode
+        git-commit-mode))
 
 ;; initalize the package system
 (package-initialize)
