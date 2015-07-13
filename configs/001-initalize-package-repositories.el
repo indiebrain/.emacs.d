@@ -21,7 +21,7 @@
         projectile-rails
         rspec-mode
         scss-mode
-        git-commit-mode))
+        git-commit))
 
 ;; initalize the package system
 (package-initialize)
