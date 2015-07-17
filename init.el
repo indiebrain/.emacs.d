@@ -1,12 +1,17 @@
 ;; emacs configuration
-(setq make-backup-files nil)
-(setq auto-save-default nil)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq-default truncate-lines t)
 (setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
 (delete-selection-mode t)
+
+(make-directory "~/.emacs.d/autosaves/" t)
+(make-directory "~/.emacs.d/backups/" t)
+(custom-set-variables
+ '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
+ '(backup-directory-alist '((".*" .  "~/.emacs/backups/"))))
+
 
 (show-paren-mode t)
 (line-number-mode t)
