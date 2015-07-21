@@ -18,6 +18,8 @@
 (column-number-mode t)
 (menu-bar-mode -1)
 
+(setq split-width-threshold 99999)
+
 (when window-system
   (tool-bar-mode -1)
   (global-linum-mode 1)
