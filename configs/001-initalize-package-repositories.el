@@ -16,9 +16,11 @@
         enh-ruby-mode
         gruvbox-theme
         flx-ido
+        inf-ruby
         js2-mode
         projectile
         projectile-rails
+        rbenv
         rspec-mode
         scss-mode
         git-commit))
