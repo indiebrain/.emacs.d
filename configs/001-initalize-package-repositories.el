@@ -16,8 +16,7 @@
         projectile-rails
         rbenv
         rspec-mode
-        scss-mode
-        git-commit))
+        writegood-mode))
 
 ;; initalize the package system
 (package-initialize)
