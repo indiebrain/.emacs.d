@@ -12,6 +12,7 @@
         flx-ido
         inf-ruby
         js2-mode
+        org-bullets
         projectile
         projectile-rails
         rbenv
