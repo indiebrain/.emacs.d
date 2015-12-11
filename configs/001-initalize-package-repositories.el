@@ -13,6 +13,7 @@
         inf-ruby
         js2-mode
         org-bullets
+        powerline
         projectile
         projectile-rails
         rbenv
