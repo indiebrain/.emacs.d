@@ -13,6 +13,7 @@
         flx-ido
         inf-ruby
         js2-mode
+        magit
         org-bullets
         powerline
         projectile
