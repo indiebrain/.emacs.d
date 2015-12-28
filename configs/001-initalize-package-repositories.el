@@ -20,6 +20,7 @@
         projectile-rails
         rbenv
         rspec-mode
+        sass-mode
         writegood-mode))
 
 ;; initalize the package system
