@@ -8,6 +8,7 @@
 (setq package-list
       '(auto-complete
         enh-ruby-mode
+        elixir-mode
         gruvbox-theme
         flx-ido
         inf-ruby
