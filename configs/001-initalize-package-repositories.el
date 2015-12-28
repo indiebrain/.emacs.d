@@ -21,6 +21,7 @@
         rbenv
         rspec-mode
         sass-mode
+        web-mode
         writegood-mode))
 
 ;; initalize the package system
