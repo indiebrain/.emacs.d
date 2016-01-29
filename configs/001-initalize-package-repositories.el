@@ -9,6 +9,7 @@
       '(auto-complete
         enh-ruby-mode
         elixir-mode
+        exec-path-from-shell
         gruvbox-theme
         flx-ido
         inf-ruby
