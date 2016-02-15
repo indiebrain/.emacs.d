@@ -11,6 +11,7 @@
         elixir-mode
         exec-path-from-shell
         gruvbox-theme
+        markdown-mode
         flx-ido
         inf-ruby
         js2-mode
