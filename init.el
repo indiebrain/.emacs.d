@@ -12,6 +12,7 @@
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
  '(backup-directory-alist '((".*" .  "~/.emacs/backups/"))))
 
+(global-hl-line-mode)
 (show-paren-mode t)
 (electric-pair-mode t)
 (line-number-mode t)
