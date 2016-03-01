@@ -1,4 +1,5 @@
 ;; emacs configuration
+(setq require-final-newline t)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq-default truncate-lines t)
@@ -11,6 +12,7 @@
 (custom-set-variables
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
  '(backup-directory-alist '((".*" .  "~/.emacs/backups/"))))
+
 
 (global-hl-line-mode)
 (show-paren-mode t)
