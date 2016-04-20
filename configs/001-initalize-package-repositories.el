@@ -11,6 +11,7 @@
         enh-ruby-mode
         elixir-mode
         exec-path-from-shell
+        gist
         gruvbox-theme
         markdown-mode
         flx-ido
