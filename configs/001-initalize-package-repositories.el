@@ -7,6 +7,7 @@
 ; list the packages you want
 (setq package-list
       '(auto-complete
+        ag
         enh-ruby-mode
         elixir-mode
         exec-path-from-shell
