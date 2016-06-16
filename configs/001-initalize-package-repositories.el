@@ -6,27 +6,26 @@
 
 ; list the packages you want
 (setq package-list
-      '(auto-complete
-        ag
-        enh-ruby-mode
+      '(ag
+        auto-complete
+        coffee-mode
         elixir-mode
-        exec-path-from-shell
+        enh-ruby-mode
+        flx-ido
         gist
         gruvbox-theme
-        markdown-mode
-        flx-ido
         inf-ruby
         js2-mode
         magit
+        markdown-mode
         org-bullets
-        powerline
         projectile
         projectile-rails
         rbenv
         rspec-mode
         sass-mode
         web-mode
-        writegood-mode))
+        yaml-mode))
 
 ;; initalize the package system
 (package-initialize)
