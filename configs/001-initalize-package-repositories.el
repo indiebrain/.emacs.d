@@ -10,6 +10,7 @@
         auto-complete
         coffee-mode
         elixir-mode
+        exec-path-from-shell
         enh-ruby-mode
         flx-ido
         gist
