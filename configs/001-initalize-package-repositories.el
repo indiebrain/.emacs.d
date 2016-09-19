@@ -34,8 +34,6 @@
 ; fetch the list of packages available
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
-;;(unless package-archive-contents
-;;  (package-refresh-contents))
 
 ; install the missing packages
 (dolist (package package-list)
