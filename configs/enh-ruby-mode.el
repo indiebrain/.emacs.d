@@ -1,4 +1,5 @@
 ;; Don't auto indent to context depth,  use the default indent
+(setq enh-ruby-add-encoding-comment-on-save nil)
 (setq enh-ruby-deep-indent-paren nil)
 
 (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
