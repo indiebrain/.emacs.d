@@ -1,4 +1,11 @@
 ;; emacs configuration
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (setq require-final-newline t)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
@@ -10,8 +17,15 @@
 (make-directory "~/.emacs.d/autosaves/" t)
 (make-directory "~/.emacs.d/backups/" t)
 (custom-set-variables
- '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
- '(backup-directory-alist '((".*" .  "~/.emacs/backups/"))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
+ '(backup-directory-alist (quote ((".*" . "~/.emacs/backups/"))))
+ '(package-selected-packages
+   (quote
+    (yaml-mode web-mode sass-mode rspec-mode rbenv projectile-rails projectile org-bullets markdown-mode magit js2-mode inf-ruby gruvbox-theme gist flx-ido enh-ruby-mode exec-path-from-shell elixir-mode coffee-mode auto-complete ag))))
 
 
 (global-hl-line-mode)
@@ -69,3 +83,9 @@
 ;; Load configurations
 (let ((config-files (directory-files *configs-directory* nil "\\w+.el$")))
   (mapc #'(lambda (x) (load-file (expand-file-name x *configs-directory*))) config-files))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
