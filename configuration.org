@@ -6,6 +6,12 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Package management
 
+** Prevent package manager from polluting the init.el
+
+#+BEGIN_SRC emacs-lisp
+  (setq package--init-file-ensured t)
+#+END_SRC
+
 ** Use the built-in (Emacs 24+) package manager
 
 Look for packages in the GNU Emacs package repository as well as a few community repositories
