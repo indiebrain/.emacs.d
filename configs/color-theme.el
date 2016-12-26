@@ -1,1 +1,1 @@
-(load-theme 'gruvbox t)
+;;(load-theme 'gruvbox t)

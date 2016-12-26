@@ -1,1 +1,1 @@
-(setq org-reveal-hlevel 2)
+;;(setq org-reveal-hlevel 2)
