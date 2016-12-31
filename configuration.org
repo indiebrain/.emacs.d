@@ -205,7 +205,7 @@ auto-saves.
   (setq auto-save-file-name-transforms
         (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
   (setq backup-directory-alist
-        (quote ((".*" . "~/.emacs/backups/"))))
+        (quote ((".*" . "~/.emacs.d/backups/"))))
 #+END_SRC
 
 
