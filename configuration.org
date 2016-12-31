@@ -4,13 +4,14 @@ This emacs configuration is inspired by Harry R. Schwartz's "Getting
 started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 
-* Package management
+* Package Manager Configuration
 
 ** Prevent package manager from polluting the init.el
 
 #+BEGIN_SRC emacs-lisp
   (setq package--init-file-ensured t)
 #+END_SRC
+
 
 ** Use the built-in (Emacs 24+) package manager
 
@@ -30,36 +31,12 @@ Setup package load-paths so packages can be referenced later on in this configur
 #+END_SRC
 
 
-** Initialize a default list of packages
+** Bootstrap the use-package package for declarative package management
 
 #+BEGIN_SRC emacs-lisp
-  (let ((package-list
-        '(ag
-          auto-complete
-          coffee-mode
-          elixir-mode
-          exec-path-from-shell
-          enh-ruby-mode
-          flx-ido
-          gist
-          gruvbox-theme
-          inf-ruby
-          js2-mode
-          magit
-          markdown-mode
-          org-bullets
-          projectile
-          projectile-rails
-          rbenv
-          rspec-mode
-          sass-mode
-          web-mode
-          yaml-mode)))
-    (or (file-exists-p package-user-dir)
-        (package-refresh-contents))
-    (dolist (package package-list)
-      (unless (package-installed-p package)
-        (package-install package))))
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
 #+END_SRC
 
 
@@ -71,9 +48,13 @@ The path must explicitly be loaded into Emacs on Mac OS X. NOTE: this
 happens automatically on Linux.
 
 #+BEGIN_SRC emacs-lisp
-  (when (memq window-system '(mac ns))
+  (use-package exec-path-from-shell
+    :if (memq window-system '(mac ns))
+    :ensure t
+    :config
     (exec-path-from-shell-initialize))
 #+END_SRC
+
 
 
 * UI Preferences
@@ -82,8 +63,11 @@ happens automatically on Linux.
 
 I prefer the [[https://github.com/morhetz/gruvbox][Gruvbox]] color theme
 
-#+BEGIN_SRC emacs-lisp
-  (load-theme 'gruvbox t)
+#+BEGIN_SRC emacs-lisp  (use-package gruvbox-theme
+  (use-package gruvbox-theme
+    :ensure t
+    :config
+    (load-theme 'gruvbox t))
 #+END_SRC
 
 
@@ -106,10 +90,17 @@ I prefer the [[https://github.com/morhetz/gruvbox][Gruvbox]] color theme
 I don't use the menu or scrollbar UI elements so I disable them.
 
 #+BEGIN_SRC emacs-lisp
-  (menu-bar-mode 0)
-  (when window-system
-    (scroll-bar-mode 0)
-    (tool-bar-mode 0))
+  (use-package menu-bar
+    :commands menu-bar-mode
+    :init (menu-bar-mode -1))
+
+  (use-package tool-bar
+    :commands tool-bar-mode
+    :init (tool-bar-mode -1))
+
+  (use-package scroll-bar
+    :commands scroll-bar-mode
+    :init (scroll-bar-mode -1))
 #+END_SRC
 
 Always highlight the current line where the point is.
@@ -175,6 +166,12 @@ For example: [], (), {}, et cetera.
 
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode t)
+#+END_SRC
+
+
+** Insert matching pairs of delimiting characters
+
+#+BEGIN_SRC emacs-lisp
   (electric-pair-mode t)
 #+END_SRC
 
@@ -212,254 +209,270 @@ auto-saves.
 #+END_SRC
 
 
-* Modes Configuration
+* Automatic Hard Line-wrap
 
-** auto-complete-mode
+- Set the default hard line-wrap at 80 characters
 
-Use auto-completion everywhere
+- Enable automatic hard line-wrap for certain modes
 
 #+BEGIN_SRC emacs-lisp
-  (auto-complete-mode t)
+  (use-package fill
+    :commands (auto-fill-mode)
+    :init
+    (set-fill-column 80)
+    (add-hook 'markdown-mode-hook 'auto-fill-mode)
+    (add-hook 'org-mode-hook 'auto-fill-mode))
 #+END_SRC
 
 
-** auto-fill-mode
+* CSS and SASS editing
 
-When auto-filling paragraphs, hard-wrap lines at 80 characters
+- Disable SASS compilation on save
 
 #+BEGIN_SRC emacs-lisp
-  (set-fill-column 80)
+  (use-package sass-mode
+    :ensure t
+    :init
+    (setq-default scss-compile-at-save nil))
+#+END_SRC
+
+- Prefer two space character indentation
+
+#+BEGIN_SRC emacs-lisp
+  (use-package css-mode
+    :ensure t
+    :init
+    (setq css-indent-offset 2))
 #+END_SRC
 
 
-** css-mode
-
-*** Use two whitespace characters for indentation
-
-CSS mode doesn't use the global indentation settings. Here I specify
-that CSS files should use two white spaces for indentation.
+* Elixir
 
 #+BEGIN_SRC emacs-lisp
-  (setq css-indent-offset 2)
+  (use-package elixir-mode
+    :ensure t)
 #+END_SRC
 
 
-** enh-ruby-mode
+* GitHub Gists
 
-*** Do not insert "magic" encoding comments into source files
+- Use gist to interact with http://gist.github.com
 
 #+BEGIN_SRC emacs-lisp
-  (setq enh-ruby-add-encoding-comment-on-save nil)
+  (use-package gist
+    :ensure t)
 #+END_SRC
 
 
-*** Use standard indentation for contextual indentation
+* JavaScript editing
 
-Do not indent new lines to context depth, rather use a standard
-indentation. For example, format indentations like:
+- Use js2-mode for JavaScript editing
 
-#+BEGIN_QUOTE
-def foo(
-  bar:,
-  baz:
-)
-  ...
-end
-#+END_QUOTE
-
-not like this:
-
-#+BEGIN_QUOTE
-def foo(
-        bar:,
-        baz:
-       )
-  ...
-end
-#+END_QUOTE
+- Prefer two space character indentation
 
 #+BEGIN_SRC emacs-lisp
-  (setq enh-ruby-deep-indent-paren nil)
+  (use-package js2-mode
+    :ensure t
+    :mode
+    ("\\.js\\'" . js2-mode)
+    :init
+    (setq js-indent-level 2)
+    (setq-default js2-basic-offset 2))
 #+END_SRC
 
 
-*** Use enh-ruby-mode for the following file types
+* Magit
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("Guardfile$" . enh-ruby-mode))
+  (use-package magit
+    :ensure t)
 #+END_SRC
 
 
-
-** flyspell-mode
-
-Flyspell uses =ispell=. Here we provide the location of the ispell
-binary.
+* Markdown
 
 #+BEGIN_SRC emacs-lisp
-  (setq ispell-program-name "/usr/local/bin/ispell")
+  (use-package markdown-mode
+    :ensure t)
 #+END_SRC
 
 
-** js2-mode
+* Org
 
-*** Use two whitespace characters for indentation
-
-JS2 mode doesn't use the global indentation settings. Here I specify
-that CSS files should use two white spaces for indentation.
+- Visually distinguish section header depth by setting line height
 
 #+BEGIN_SRC emacs-lisp
-  (setq js-indent-level 2)
-  (setq-default js2-basic-offset 2)
+  (use-package org
+    :ensure t
+    :config
+    (set-face-attribute 'org-level-1 nil :height 1.5)
+    (set-face-attribute 'org-level-2 nil :height 1.25)
+    (set-face-attribute 'org-level-3 nil :height 1.15)
+    (set-face-attribute 'org-level-4 nil :height 1.05)
+    (set-face-attribute 'org-level-5 nil :height 1.1))
+#+END_SRC
+
+- Use =org-bullets= for pretty bullet-ed lists
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :commands (org-bullets-mode)
+    :init
+    (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
 
 
-*** Use js2-mode for =.js= files
+* Project navigation
+
+- Use projectile for project navigation
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+    (use-package projectile
+      :ensure t
+      :init
+      (setq projectile-enable-caching t)
+      (setq projectile-indexing-method 'native)
+      (setq projectile-completion-system 'ido)
+      (add-hook 'elixir-mode-hook 'projectile-mode)
+      (add-hook 'enh-ruby-mode-hook 'projectile-mode)
+      (add-hook 'js2-mode-hook 'projectile-mode)
+      (add-hook 'web-mode-hook 'projectile-mode))
+#+END_SRC
+
+- Require flx-ido for search completion
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flx-ido
+    :ensure t)
+#+END_SRC
+
+- Make projectile Rails-aware
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile-rails
+    :ensure t)
 #+END_SRC
 
 
-** org-mode
+* Ruby
 
-*** Visually distinguish section header depth by line height
+- Allow emacs to use =rbenv= to find project rubies
 
 #+BEGIN_SRC emacs-lisp
-(custom-set-faces
-  '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
-  '(org-level-2 ((t (:inherit outline-2 :height 1.25))))
-  '(org-level-3 ((t (:inherit outline-3 :height 1.15))))
-  '(org-level-4 ((t (:inherit outline-4 :height 1.05))))
-  '(org-level-5 ((t (:inherit outline-5 :height 1.1))))
-)
+  (use-package rbenv
+    :ensure t
+    :init
+    (setq rbenv-installation-dir (file-chase-links "/usr/local/opt/rbenv")))
 #+END_SRC
 
-*** Use pretty bullets for bulleted lists
+- Use =inf-ruby= for interactive ruby REPL
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook
-          (lambda ()
-            (require 'org-bullets)
-            (org-bullets-mode 1)))
+  (use-package inf-ruby
+    :ensure t)
 #+END_SRC
 
-*** Enable the spell checker for org-mode buffers
+- Enable =rpsec-mode= for in-editor test running
+
+  - Set =comilation-scroll-output= to true so the rspec output buffer
+    scrolls along with spec output
+
+  - Add =inf-ruby-switch-setup= to the =rspec-mode= =after-init-hook=
+    so tools like pry and byebug can debug inside the rspec-mode buffer
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook
-          (lambda ()
-            (flyspell-mode 1)))
+  (use-package rspec-mode
+    :ensure t
+    :init
+    (setq compilation-scroll-output t)
+    (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 #+END_SRC
 
-*** Automatically hard-line-wrap long lines
+- Use "Enhanced Ruby Mode" to edit ruby-ish files
+
+- Prevent =enh-ruby-mode= from adding the "Magic" encoding comment on
+  save by setting =enh-ruby-add-encoding-comment-on-save= to false.
+
+- Do not indent new lines to context depth, rather use a standard
+  indentation. For example, format indentations like:
+
+  #+BEGIN_EXAMPLE
+  def foo(
+    bar:,
+    baz:
+  )
+    ...
+  end
+  #+END_EXAMPLE
+
+  not like this:
+
+  #+BEGIN_EXAMPLE
+  def foo(
+          bar:,
+          baz:
+         )
+    ...
+  end
+  #+END_EXAMPLE
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook
-          (lambda ()
-            (auto-fill-mode 1)))
-#+END_SRC
-
-
-** ox-reveal
-
-*** Arrange all slides horizontally
-
-#+BEGIN_SRC emacs-lisp
-  (setq org-reveal-hlevel 2)
-#+END_SRC
-
-
-** projectile-mode
-
-*** Enable index caching
-
-#+BEGIN_SRC emacs-lisp
-  (setq projectile-enable-caching t)
-  (setq projectile-indexing-method 'native)
-#+END_SRC
-
-*** Use ido as the searching/completion system
-
-#+BEGIN_SRC emacs-lisp
-  (setq projectile-completion-system 'ido)
-#+END_SRC
-
-*** Use projectile with ruby buffers
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'enh-ruby-mode-hook
-            'projectile-mode)
-
-  (add-hook 'ruby-mode-hook
-            'projectile-mode)
-#+END_SRC
-
-*** Use projectile with JavaScript buffers
-
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'js2-mode-hook
-            'projectile-mode)
+  (use-package enh-ruby-mode
+    :ensure t
+    :init
+    (setq enh-ruby-add-encoding-comment-on-save nil)
+    (setq enh-ruby-deep-endent-paren nil)
+    :mode
+    (("\\.rb$" . enh-ruby-mode)
+     ("\\.rake$" . enh-ruby-mode)
+     ("Rakefile$" . enh-ruby-mode)
+     ("\\.gemspec$" . enh-ruby-mode)
+     ("\\.ru$" . enh-ruby-mode)
+     ("Gemfile$" . enh-ruby-mode)
+     ("Guardfile$" . enh-ruby-mode)))
 #+END_SRC
 
 
-** rbenv
+* Spell Checking
 
-*** Tell emacs where rbenv is installed
+- Tell =flyspell= to use the local ispell installation
+
+- Lazily enable Flyspell for selected modes
 
 #+BEGIN_SRC emacs-lisp
-  (setq rbenv-installation-dir (file-chase-links "/usr/local/opt/rbenv"))
+  (use-package flyspell
+    :commands (flyspell-prog-mode flyspell-mode)
+    :init
+    (setq ispell-program-name "/usr/local/bin/ispell")
+    (add-hook 'enh-ruby-mode-hook 'flyspell-prog-mode)
+    (add-hook 'markdown-mode-hook 'flyspell-mode)
+    (add-hook 'org-mode-hook 'flyspell-mode)
+    (add-hook 'text-mode-hook 'flyspell-mode))
 #+END_SRC
 
 
-** rspec-mode
+* Web markup
 
-*** Scroll along as rspec dumps text to output buffers
+- Use web-mode for editing web markup
+
+- Prefer two space character indentation
 
 #+BEGIN_SRC emacs-lisp
-  (setq compilation-scroll-output t)
+  (use-package web-mode
+    :ensure t
+    :mode
+    ("\\.eex\\'" . web-mode)
+    ("\\.erb\\'" . web-mode)
+    ("\\.html\\'" . web-mode)
+    :init
+    (setq web-mode-markup-indent-offset 2))
 #+END_SRC
 
 
-*** Enable debugging in buffers with =pry= and =byebug=
+* YAML
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'after-init-hook
-            'inf-ruby-switch-setup)
-#+END_SRC
-
-
-** scss-mode
-
-*** Disable sass compilation on buffer Save
-
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'scss-mode-hook
-              (setq-default scss-compile-at-save nil))
-  #+END_SRC
-
-
-** web-mode
-
-*** Use two whitespace characters for indentation
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'web-mode-hook
-          (lambda ()
-            ""
-            (setq web-mode-markup-indent-offset 2)))
-#+END_SRC
-
-*** Use web-mode for =.erb= files
-
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'auto-mode-alist
-             '("\\.erb\\'" . web-mode))
+  (use-package yaml-mode
+    :ensure t)
 #+END_SRC
