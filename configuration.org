@@ -6,302 +6,438 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Package Manager Configuration
 
-** Prevent package manager from polluting the init.el
-
-#+BEGIN_SRC emacs-lisp
-  (setq package--init-file-ensured t)
-#+END_SRC
-
-
 ** Use the built-in (Emacs 24+) package manager
 
-Look for packages in the GNU Emacs package repository as well as a few community repositories
+   Disable the auto generation of =(require package)= in the init.el. I
+   already require =package= in this configuration so it's not needed.
 
-#+BEGIN_SRC emacs-lisp
-  (require 'package)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq package--init-file-ensured t)
+   #+END_SRC
 
-Setup package load-paths so packages can be referenced later on in this configuration.
+   Setup the package repositories. I use the canonical GNU repository, as
+   well as a handful of community supported repositories.
 
-#+BEGIN_SRC emacs-lisp
-  (package-initialize)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (require 'package)
+     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+     (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+     (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+   #+END_SRC
+
+   Initialize the package system.
+
+   #+BEGIN_SRC emacs-lisp
+     (package-initialize)
+   #+END_SRC
 
 
-** Bootstrap the use-package package for declarative package management
+   Make sure use-package is installed. use-package is used to install,
+   and configure packages lazily. This should be the only package that
+   needs to be manually installed.
 
-#+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package)
+       (require 'use-package))
+  #+END_SRC
 
 
 * Path Management
 
-** Load the shell's PATH into the emacs path when using Mac OS
+  The path must explicitly be loaded into Emacs on Mac OS X. NOTE: this
+  happens automatically on Linux.
 
-The path must explicitly be loaded into Emacs on Mac OS X. NOTE: this
-happens automatically on Linux.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package exec-path-from-shell
-    :if (memq window-system '(mac ns))
-    :ensure t
-    :config
-    (exec-path-from-shell-initialize))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package exec-path-from-shell
+      :if (memq window-system '(mac ns))
+      :ensure t
+      :config
+      (exec-path-from-shell-initialize))
+  #+END_SRC
 
 
 
 * UI Preferences
 
-** Initialize the color-theme
-
-I prefer the [[https://github.com/morhetz/gruvbox][Gruvbox]] color theme
-
-#+BEGIN_SRC emacs-lisp  (use-package gruvbox-theme
-  (use-package gruvbox-theme
-    :ensure t
-    :config
-    (load-theme 'gruvbox t))
-#+END_SRC
-
-
 ** Hide emacs startup message
 
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message t)
-#+END_SRC
+   I don't find the emacs welcome message useful, so prevent it on startup.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq inhibit-startup-message t)
+   #+END_SRC
 
 
 ** Disable default scratch buffer message
 
-#+BEGIN_SRC emacs-lisp
-  (setq-default initial-scratch-message nil)
-#+END_SRC
+   I don’t find the explanatory message of the scratch buffer useful, so don’t show it.
+
+   #+BEGIN_SRC emacs-lisp
+  (setq initial-scratch-message "")
+   #+END_SRC
+
+
+** Make scratch start in org-mode
+
+   If I am opening a scratch buffer it will likely end up being a org
+   document, or at the very least will be used to take some disposable
+   notes; either way defaulting to org mode will be handy the majority of
+   the time.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq initial-major-mode 'org-mode)
+   #+END_SRC
+
+
+** Show the point's line and column numbers
+
+   I don't use fringe line number, but I still like knowing the
+   coordinates of my point. This enables the mode-line point coordinates.
+
+   #+BEGIN_SRC emacs-lisp
+     (line-number-mode t)
+     (column-number-mode t)
+   #+END_SRC
+
+
+** Initialize the color-theme
+
+   I prefer the [[https://github.com/morhetz/gruvbox][Gruvbox]] color theme
+
+   #+BEGIN_SRC emacs-lisp  (use-package gruvbox-theme
+     (use-package gruvbox-theme
+       :ensure t
+       :config
+       (load-theme 'gruvbox t))
+   #+END_SRC
 
 
 ** Disable menu, toolbar, and scrollbar UI elements
 
-I don't use the menu or scrollbar UI elements so I disable them.
+   I don't use the menu or scrollbar UI elements so I disable them to
+   get back some screen real estate
 
-#+BEGIN_SRC emacs-lisp
-  (use-package menu-bar
-    :commands menu-bar-mode
-    :init (menu-bar-mode -1))
+   #+BEGIN_SRC emacs-lisp
+     (use-package menu-bar
+       :commands menu-bar-mode
+       :init (menu-bar-mode -1))
 
-  (use-package tool-bar
-    :commands tool-bar-mode
-    :init (tool-bar-mode -1))
+     (use-package tool-bar
+       :commands tool-bar-mode
+       :init (tool-bar-mode -1))
 
-  (use-package scroll-bar
-    :commands scroll-bar-mode
-    :init (scroll-bar-mode -1))
-#+END_SRC
+     (use-package scroll-bar
+       :commands scroll-bar-mode
+       :init
+       (scroll-bar-mode -1)
+       (when (fboundp 'horizontal-scroll-bar-mode)
+         (horizontal-scroll-bar-mode -1)))
+   #+END_SRC
 
-Always highlight the current line where the point is.
+   Always highlight the current line of the point.
 
-#+BEGIN_SRC emacs-lisp
-  (global-hl-line-mode)
-#+END_SRC
-
-
-** Show line and column numbers in the mode-line
-
-#+BEGIN_SRC emacs-lisp
-  (line-number-mode t)
-  (column-number-mode t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (global-hl-line-mode)
+   #+END_SRC
 
 
-** Disable soft-line-wrapping
+** Disable soft line wrapping
 
-#+BEGIN_SRC emacs-lisp
-  (setq-default truncate-lines t)
-#+END_SRC
+   I like to see long lines as long lines so that it's clear that I
+   should probably do something about them.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq truncate-lines t)
+   #+END_SRC
 
 
 * Buffer preferences
 
 ** Ensure that files end with a newline character
 
-#+BEGIN_SRC emacs-lisp
-  (setq require-final-newline t)
-#+END_SRC
+   This tends to be part of the code-style of many organizations for
+   which I do work and it doesn't hurt to make sure that the last
+   character in any file is a \n character so I make it the default.
 
-
-** Save on lose focus
-
-Emacs auto-saves a buffer when I change buffers or Emacs loses focus.
-
-#+BEGIN_SRC emacs-lisp
-  (defun save-all ()
-    "Save all open buffers"
-      (interactive)
-      (save-some-buffers t))
-
-   (add-hook 'focus-out-hook 'save-all)
-
-  (defadvice switch-to-buffer (before save-buffer-now activate)
-    (when buffer-file-name (save-all)))
-  (defadvice other-window (before other-window-now activate)
-    (when buffer-file-name (save-all)))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq require-final-newline t)
+   #+END_SRC
 
 
 ** Remove trailing whitespace on save
 
-#+BEGIN_SRC emacs-lisp
-(add-hook 'before-save-hook 'whitespace-cleanup)
-#+END_SRC
+   Extra end-of-line whitespace bugs me, but I'm also prone to
+   introducing it so automatically trim trailing whitespace when a
+   buffer is saved.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'before-save-hook 'whitespace-cleanup)
+   #+END_SRC
 
 
-** Highlight pairs of context delimiting characters
+** Show and match bracket pairs
 
-For example: [], (), {}, et cetera.
+   Highligh matching brackets and when I open a bracket, autmaically
+   close it for me:
 
-#+BEGIN_SRC emacs-lisp
-  (show-paren-mode t)
-#+END_SRC
+   For example: [], (), {}, et cetera.
 
-
-** Insert matching pairs of delimiting characters
-
-#+BEGIN_SRC emacs-lisp
-  (electric-pair-mode t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (show-paren-mode t)
+     (electric-pair-mode t)
+   #+END_SRC
 
 
 ** Allow deletion of highlighted regions
 
-#+BEGIN_SRC emacs-lisp
-  (delete-selection-mode t)
-#+END_SRC
+   I like to be able to select a region and delete it.
+
+   #+BEGIN_SRC emacs-lisp
+     (delete-selection-mode t)
+   #+END_SRC
 
 
 ** Prefer two space character indentation
 
-#+BEGIN_SRC emacs-lisp
-  (setq-default tab-width 2)
-  (setq-default indent-tabs-mode nil)
-#+END_SRC
+   In my experience, whitespace is more portable than <tab>
+   characters. As such, I use two white-space characters for
+   indentation.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq-default tab-width 2)
+     (setq-default indent-tabs-mode nil)
+   #+END_SRC
+
+
+** Automatic hard line-wrapping for textual modes
+
+  Set the default hard line-wrap at 80 characters. Enable automatic
+  hard line-wrap for textual modes.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package fill
+      :commands (auto-fill-mode)
+      :init
+      (set-fill-column 80)
+      (add-hook 'markdown-mode-hook 'auto-fill-mode)
+      (add-hook 'org-mode-hook 'auto-fill-mode))
+  #+END_SRC
 
 
 * Auto-save and Backups Behavior
 
-I like to keep all of Emacs' auto-generated saves and backups tidily
-in a central place rather than littering the filesystem. Here I tell
-emacs to redirect the generated files to a known directory when it
-auto-saves.
+** Centralize auto-save and backup locations
 
-#+BEGIN_SRC emacs-lisp
-  (make-directory "~/.emacs.d/autosaves/" t)
-  (make-directory "~/.emacs.d/backups/" t)
+  I like to keep all of Emacs' auto-generated saves and backups tidily
+  in a central place rather than littering the filesystem. Here I tell
+  emacs to redirect the generated files to a known directory when it
+  auto-saves.
 
-  (setq auto-save-file-name-transforms
-        (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
-  (setq backup-directory-alist
-        (quote ((".*" . "~/.emacs.d/backups/"))))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (make-directory "~/.emacs.d/autosaves/" t)
+    (make-directory "~/.emacs.d/backups/" t)
 
-
-* Automatic Hard Line-wrap
-
-- Set the default hard line-wrap at 80 characters
-
-- Enable automatic hard line-wrap for certain modes
-
-#+BEGIN_SRC emacs-lisp
-  (use-package fill
-    :commands (auto-fill-mode)
-    :init
-    (set-fill-column 80)
-    (add-hook 'markdown-mode-hook 'auto-fill-mode)
-    (add-hook 'org-mode-hook 'auto-fill-mode))
-#+END_SRC
+    (setq auto-save-file-name-transforms
+          (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
+    (setq backup-directory-alist
+          (quote ((".*" . "~/.emacs.d/backups/"))))
+  #+END_SRC
 
 
-* CSS and SASS editing
+** Centralize =tramp= backups
 
-- Disable SASS compilation on save
+   For the same reasons as auto-saves and backups, I keep backups from
+   Tramp mode in the same centralized location.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package sass-mode
-    :ensure t
-    :init
-    (setq-default scss-compile-at-save nil))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq tramp-backup-directory-alist backup-directory-alist)
+   #+END_SRC
 
-- Prefer two space character indentation
 
-#+BEGIN_SRC emacs-lisp
-  (use-package css-mode
-    :ensure t
-    :init
-    (setq css-indent-offset 2))
-#+END_SRC
+** Enable backups for files under version control
+
+   Just because the file is under version control does not mean I
+   don’t care about backups. Lets make sure they are still getting
+   backed up.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq vc-make-backup-files t)
+   #+END_SRC
+
+
+** Save on lose focus
+
+   When I leave emacs or change a buffer, auto-save all open buffers.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun save-all ()
+       "Save all open buffers"
+         (interactive)
+         (save-some-buffers t))
+
+      (add-hook 'focus-out-hook 'save-all)
+
+     (defadvice switch-to-buffer (before save-buffer-now activate)
+       (when buffer-file-name (save-all)))
+     (defadvice other-window (before other-window-now activate)
+       (when buffer-file-name (save-all)))
+   #+END_SRC
+
+
+* Better scrolling
+
+** Make scrolling smoother and scroll one line at a time
+
+   The default emacs scrolling behavior can be difficult to use; the text
+   jumps too much too fast. This should make scrolling a little bit more
+   smooth when in GUI emacs.
+
+   #+BEGIN_SRC emacs-lisp
+     (when window-system
+       (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+       (setq mouse-wheel-progressive-speed nil)
+       (setq mouse-wheel-follow-mouse 't)
+       (setq scroll-step 1))
+   #+END_SRC
+
+
+* Syntax checking
+
+  I generally find checking syntax and structure useful, and flycheck
+  does this well, and has many plugins that I can enable in other
+  modes, so lets make sure it is installed and enabled here.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+      :ensure t
+      :init
+      (add-hook 'after-init-hook 'global-flycheck-mode))
+  #+END_SRC
+
+
+* Spell Checking
+
+  I am prone to typos. Enable flyspell in textual contexts to help
+  catch the times where I don't quite English so well.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package flyspell
+      :diminish flyspell-mode
+      :commands (flyspell-prog-mode flyspell-mode)
+      :init
+      (setq ispell-program-name "/usr/local/bin/ispell")
+      (add-hook 'ruby-mode-hook 'flyspell-prog-mode)
+      (add-hook 'markdown-mode-hook 'flyspell-mode)
+      (add-hook 'org-mode-hook 'flyspell-mode)
+      (add-hook 'text-mode-hook 'flyspell-mode))
+  #+END_SRC
+
+
+* Auto Complete
+
+  I find auto completion allows the speed of my hands to more closely
+  match the speed of my brain and avoids typos. I used to use
+  =auto-complete=, but a friend has convinced me to try =company-mode=
+  so let's give it a shot.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package company
+      :ensure t
+      :diminish company-mode
+      :bind ("C-:" . company-complete)
+      :init
+      (setq company-dabbrev-ignore-case t
+            company-show-numbers t)
+      (add-hook 'after-init-hook 'global-company-mode)
+      :config
+      (add-to-list 'company-backends 'company-math-symbols-unicode))
+  #+END_SRC
+
+
+* CSS
+
+  Seems css-mode ignores global indentations settings, so lets specifically set that now.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package css-mode
+      :ensure t
+      :init
+      (setq css-indent-offset 2))
+  #+END_SRC
 
 
 * Elixir
 
-#+BEGIN_SRC emacs-lisp
-  (use-package elixir-mode
-    :ensure t)
-#+END_SRC
+  I dabble with a bit of [[http://elixir-lang.org/][Elixir]] here and there so I include support
+  for it, but I don't yet have any fancy tooling or configuration for
+  it.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package elixir-mode
+      :ensure t)
+  #+END_SRC
 
 
-* GitHub Gists
+* Gist
 
-- Use gist to interact with http://gist.github.com
+  My memory is terrible. To supplement I tend to keep notes in
+  [[gist.github.com][gists]]. This makes it so that I can work with my gists from within
+  the emacs editor.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package gist
-    :ensure t)
-#+END_SRC
+  NOTE: User authentication information is stored elsewhere as
+  described in the [[https://github.com/defunkt/gist.el#gistel----emacs-integration-for-gistgithubcom][gist.el]] documentation.
 
-
-* JavaScript editing
-
-- Use js2-mode for JavaScript editing
-
-- Prefer two space character indentation
-
-#+BEGIN_SRC emacs-lisp
-  (use-package js2-mode
-    :ensure t
-    :mode
-    ("\\.js\\'" . js2-mode)
-    :init
-    (setq js-indent-level 2)
-    (setq-default js2-basic-offset 2))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (use-package gist
+      :ensure t)
+  #+END_SRC
 
 
-* Magit
+* Git
 
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t)
-#+END_SRC
+** Setup Magit
+
+   I use git a lot. I do /not/ use magit a lot, but it's always on
+   that list of "Ya, I'm not giving it a fair shot, but I'd like to
+   use it more often."  tools. I include it here as a reminder to
+   myself that I should invest more time to incorporate it into my
+   workflow.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package magit
+       :ensure t
+       :commands magit-status magit-blame
+       :bind ("C-x g" . magit-status))
+   #+END_SRC
 
 
 * Markdown
 
-#+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode
-    :ensure t)
-#+END_SRC
+  I work with Github a lot. I work with other developers a lot. Not
+  many of those developers use =org-mode= -- which is my preferred
+  format for documentation and note taking. As such, I author shared
+  documentation in Markdown as it seems to be more portable and
+  completely unavoidable.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package markdown-mode
+      :ensure t)
+  #+END_SRC
 
 
 * Org
 
-- Visually distinguish section header depth by setting line height
+  I use =org-mode= a lot. For note taking, formatting textual data
+  with tables, and even writing notes to future versions of myself
+  about my emacs configuration (Hi, future me! You handsome devil.)
 
-#+BEGIN_SRC emacs-lisp
+  When using bullet lists, the below configuration make it easier to
+  see nested contexts by using different line heights for each
+  indentation level.
+
+  #+BEGIN_SRC emacs-lisp
   (use-package org
     :ensure t
     :config
@@ -310,24 +446,28 @@ auto-saves.
     (set-face-attribute 'org-level-3 nil :height 1.15)
     (set-face-attribute 'org-level-4 nil :height 1.05)
     (set-face-attribute 'org-level-5 nil :height 1.1))
-#+END_SRC
+  #+END_SRC
 
-- Use =org-bullets= for pretty bullet-ed lists
+  This take org-mode bullet lists one step farther. It renders
+  indentation level bullet headers so they look like a single bullet
+  at the correct indentation level. The '*' characters are still
+  there, but hidden through the magic of colors.
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :ensure t
     :commands (org-bullets-mode)
     :init
     (add-hook 'org-mode-hook 'org-bullets-mode))
-#+END_SRC
+  #+END_SRC
 
 
 * Project navigation
 
-- Use projectile for project navigation
+  Make it easier to navigate through related groups of files --
+  projects.
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (use-package projectile
       :ensure t
       :init
@@ -336,143 +476,160 @@ auto-saves.
       (setq projectile-completion-system 'ido)
       (add-hook 'elixir-mode-hook 'projectile-mode)
       (add-hook 'ruby-mode-hook 'projectile-mode)
-      (add-hook 'js2-mode-hook 'projectile-mode)
+      (add-hook 'js-mode-hook 'projectile-mode)
       (add-hook 'web-mode-hook 'projectile-mode))
-#+END_SRC
+  #+END_SRC
 
-- Require flx-ido for search completion
+  Enable fuzzy matching when searching for file names.
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   (use-package flx-ido
     :ensure t)
-#+END_SRC
+  #+END_SRC
 
-- Make projectile Rails-aware
+  Make it easier to navigate between related concepts in Rails
+  projects.
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   (use-package projectile-rails
     :ensure t)
-#+END_SRC
+  #+END_SRC
 
 
 * Ruby
 
-- Allow emacs to use =rbenv= to find project rubies
+** ruby-mode
 
-#+BEGIN_SRC emacs-lisp
-  (use-package rbenv
-    :ensure t
-    :init
-    (setq rbenv-installation-dir (file-chase-links "/usr/local/opt/rbenv")))
-#+END_SRC
+   Associate =ruby-mode= with ruby-ish files -- like Gemfiles,
+   Rakefiles, etc.
 
-- Use =inf-ruby= for interactive ruby REPL
+   Prevent emacs from writing the "Magic Encoding
+   Comment" at the top of source files which use exotic coding
+   schemes.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package inf-ruby
-    :ensure t)
-#+END_SRC
+   Do not indent new lines to context depth, rather use a standard
+   indentation. For example, format indentations like:
 
-- Enable =rpsec-mode= for in-editor test running
+   #+BEGIN_EXAMPLE
+     def foo(
+      bar:,
+      baz:
+     )
+      ...
+     end
+   #+END_EXAMPLE
 
-  - Set =comilation-scroll-output= to true so the rspec output buffer
-    scrolls along with spec output
+   not like this:
 
-  - Add =inf-ruby-switch-setup= to the =rspec-mode= =after-init-hook=
-    so tools like pry and byebug can debug inside the rspec-mode buffer
+   #+BEGIN_EXAMPLE
+     def foo(
+            bar:,
+            baz:
+           )
+      ...
+     end
+   #+END_EXAMPLE
 
-#+BEGIN_SRC emacs-lisp
-  (use-package rspec-mode
-    :ensure t
-    :init
-    (setq compilation-scroll-output t)
-    (add-hook 'after-init-hook 'inf-ruby-switch-setup))
-#+END_SRC
-
-- Use "Enhanced Ruby Mode" to edit ruby-ish files
-
-- Prevent =ruby-mode= from adding the "Magic" encoding comment on
-  save by setting =enh-ruby-add-encoding-comment-on-save= to false.
-
-- Do not indent new lines to context depth, rather use a standard
-  indentation. For example, format indentations like:
-
-  #+BEGIN_EXAMPLE
-  def foo(
-    bar:,
-    baz:
-  )
-    ...
-  end
-  #+END_EXAMPLE
-
-  not like this:
-
-  #+BEGIN_EXAMPLE
-  def foo(
-          bar:,
-          baz:
-         )
-    ...
-  end
-  #+END_EXAMPLE
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ruby-mode
-    :ensure t
-    :init
-    (setq ruby-insert-encoding-magic-comment nil)
-    (setq ruby-deep-indent-paren nil)
-    :mode
-    (("\\.rb$" . ruby-mode)
-     ("\\.rake$" . ruby-mode)
-     ("Rakefile$" . ruby-mode)
-     ("\\.gemspec$" . ruby-mode)
-     ("\\.ru$" . ruby-mode)
-     ("Gemfile$" . ruby-mode)
-     ("Guardfile$" . ruby-mode)))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package ruby-mode
+       :ensure t
+       :mode
+       (("\\.rb$" . ruby-mode)
+        ("\\.rake$" . ruby-mode)
+        ("Rakefile$" . ruby-mode)
+        ("\\.gemspec$" . ruby-mode)
+        ("\\.ru$" . ruby-mode)
+        ("Gemfile$" . ruby-mode)
+        ("Guardfile$" . ruby-mode))
+       :init
+       (setq ruby-insert-encoding-magic-comment nil
+             ruby-deep-indent-paren nil
+             ruby-indent-tabs-mode nil)
+       (add-hook 'ruby-mode 'superword-mode)
+       :config
+       (bind-key "M-<down>" 'ruby-forward-sexp)
+       (bind-key "M-<up>" 'ruby-backward-sexp)
+       (bind-key "C-c C-e" 'ruby-send-region))
+   #+END_SRC
 
 
-* Spell Checking
+** rbenv
 
-- Tell =flyspell= to use the local ispell installation
+   I use [[http://rbenv.org/][rbenv]] to manage my ruby versions. Here I make emacs rbenv aware.
 
-- Lazily enable Flyspell for selected modes
-
-#+BEGIN_SRC emacs-lisp
-  (use-package flyspell
-    :commands (flyspell-prog-mode flyspell-mode)
-    :init
-    (setq ispell-program-name "/usr/local/bin/ispell")
-    (add-hook 'ruby-mode-hook 'flyspell-prog-mode)
-    (add-hook 'markdown-mode-hook 'flyspell-mode)
-    (add-hook 'org-mode-hook 'flyspell-mode)
-    (add-hook 'text-mode-hook 'flyspell-mode))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package rbenv
+       :ensure t
+       :init
+       (setq rbenv-installation-dir (file-chase-links "/usr/local/opt/rbenv")))
+  #+END_SRC
 
 
-* Web markup
+** rspec
 
-- Use web-mode for editing web markup
+   I, sometimes, like to run targeted groups of specs from within
+   emacs. Here I make emacs aware of rspec and how to run groups of
+   specs. This also enables debugging in emacs with tools like [[https://github.com/deivid-rodriguez/byebug][byebug]]
+   and [[https://github.com/pry/pry][pry]].
 
-- Prefer two space character indentation
+   #+BEGIN_SRC emacs-lisp
+     (use-package rspec-mode
+       :ensure t
+       :init
+       (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+       :config
+       (add-hook 'rspec-compilation-mode-hook
+                 (lambda ()
+                   (make-local-variable 'compilation-scroll-output)
+                   (setq compilation-scroll-output 'first-error))))
+   #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :ensure t
-    :mode
-    ("\\.eex\\'" . web-mode)
-    ("\\.erb\\'" . web-mode)
-    ("\\.html\\'" . web-mode)
-    :init
-    (setq web-mode-markup-indent-offset 2))
-#+END_SRC
+
+** inf-ruby
+
+   I want to be able to use the ruby REPL inside of emacs. This
+   enables the "inferior ruby" mode
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package inf-ruby
+       :ensure t
+       :init
+       (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode))
+   #+END_SRC
 
 
-* YAML
+** erb
 
-#+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode
-    :ensure t)
-#+END_SRC
+   Use =web-mode= to edit ERB templates
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package web-mode
+       :ensure t
+       :mode
+       ("\\.erb\\'" . web-mode)
+       :init
+       (setq web-mode-markup-indent-offset 2))
+   #+END_SRC
+
+
+** YAML
+
+   I mostly run into YAML when dealing with ruby configuration. This
+   makes it easier to work with and format YAML.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package yaml-mode
+       :ensure t)
+   #+END_SRC
+
+
+* SASS
+
+  Prevent =sass-mode= from compiling sass files on save
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package sass-mode
+      :ensure t
+      :init
+      (setq-default scss-compile-at-save nil))
+  #+END_SRC
