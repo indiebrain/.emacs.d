@@ -565,6 +565,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+END_SRC
 
 
+** ruby-end
+
+   Similar to electric-paren, ruby-end takes care of automatically
+   inserting end to close blocks, methods, and conditionals.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ruby-end
+       :ensure t)
+   #+END_SRC
+
 ** rspec
 
    I, sometimes, like to run targeted groups of specs from within
