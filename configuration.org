@@ -335,7 +335,7 @@ auto-saves.
       (setq projectile-indexing-method 'native)
       (setq projectile-completion-system 'ido)
       (add-hook 'elixir-mode-hook 'projectile-mode)
-      (add-hook 'enh-ruby-mode-hook 'projectile-mode)
+      (add-hook 'ruby-mode-hook 'projectile-mode)
       (add-hook 'js2-mode-hook 'projectile-mode)
       (add-hook 'web-mode-hook 'projectile-mode))
 #+END_SRC
@@ -391,7 +391,7 @@ auto-saves.
 
 - Use "Enhanced Ruby Mode" to edit ruby-ish files
 
-- Prevent =enh-ruby-mode= from adding the "Magic" encoding comment on
+- Prevent =ruby-mode= from adding the "Magic" encoding comment on
   save by setting =enh-ruby-add-encoding-comment-on-save= to false.
 
 - Do not indent new lines to context depth, rather use a standard
@@ -418,19 +418,19 @@ auto-saves.
   #+END_EXAMPLE
 
 #+BEGIN_SRC emacs-lisp
-  (use-package enh-ruby-mode
+  (use-package ruby-mode
     :ensure t
     :init
-    (setq enh-ruby-add-encoding-comment-on-save nil)
-    (setq enh-ruby-deep-endent-paren nil)
+    (setq ruby-insert-encoding-magic-comment nil)
+    (setq ruby-deep-indent-paren nil)
     :mode
-    (("\\.rb$" . enh-ruby-mode)
-     ("\\.rake$" . enh-ruby-mode)
-     ("Rakefile$" . enh-ruby-mode)
-     ("\\.gemspec$" . enh-ruby-mode)
-     ("\\.ru$" . enh-ruby-mode)
-     ("Gemfile$" . enh-ruby-mode)
-     ("Guardfile$" . enh-ruby-mode)))
+    (("\\.rb$" . ruby-mode)
+     ("\\.rake$" . ruby-mode)
+     ("Rakefile$" . ruby-mode)
+     ("\\.gemspec$" . ruby-mode)
+     ("\\.ru$" . ruby-mode)
+     ("Gemfile$" . ruby-mode)
+     ("Guardfile$" . ruby-mode)))
 #+END_SRC
 
 
@@ -445,7 +445,7 @@ auto-saves.
     :commands (flyspell-prog-mode flyspell-mode)
     :init
     (setq ispell-program-name "/usr/local/bin/ispell")
-    (add-hook 'enh-ruby-mode-hook 'flyspell-prog-mode)
+    (add-hook 'ruby-mode-hook 'flyspell-prog-mode)
     (add-hook 'markdown-mode-hook 'flyspell-mode)
     (add-hook 'org-mode-hook 'flyspell-mode)
     (add-hook 'text-mode-hook 'flyspell-mode))
