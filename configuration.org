@@ -300,6 +300,20 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+END_SRC
 
 
+* Searching
+
+  Use =ido= to fuzzy match file and directory names when opening files
+  from the minibuffer.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package ido
+      :init
+      (ido-mode 1)
+      (setq ido-everywhere t)
+      (setq ido-enable-flex-matching t))
+  #+END_SRC
+
+
 * Better scrolling
 
 ** Make scrolling smoother and scroll one line at a time
