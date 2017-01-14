@@ -231,6 +231,15 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+END_SRC
 
 
+** Line wrapping
+
+   Disable soft line wrapping
+
+   #+BEGIN_SRC emacs-lisp
+     (setq truncte-lines t)
+   #+END_SRC
+
+
 * Auto-save and Backups Behavior
 
 ** Centralize auto-save and backup locations
