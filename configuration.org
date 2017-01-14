@@ -323,11 +323,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   does this well, and has many plugins that I can enable in other
   modes, so lets make sure it is installed and enabled here.
 
+  Here I explicitly set a path to the rubocop configuration as many of
+  the projects I'm currently contributing to do not use the standard
+  =<project_root>/.rubocop.yml= location.
+
   #+BEGIN_SRC emacs-lisp
     (use-package flycheck
       :ensure t
       :init
-      (add-hook 'after-init-hook 'global-flycheck-mode))
+      (add-hook 'after-init-hook 'global-flycheck-mode)
+      (setq flycheck-rubocoprc "config/lint/.ruby-style.yml"))
   #+END_SRC
 
 
