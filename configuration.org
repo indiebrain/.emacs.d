@@ -58,7 +58,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+END_SRC
 
 
-
 * UI Preferences
 
 ** Hide emacs startup message
@@ -155,6 +154,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Buffer preferences
 
+
 ** Ensure that files end with a newline character
 
    This tends to be part of the code-style of many organizations for
@@ -166,6 +166,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+END_SRC
 
 
+
 ** Remove trailing whitespace on save
 
    Extra end-of-line whitespace bugs me, but I'm also prone to
@@ -175,6 +176,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+BEGIN_SRC emacs-lisp
      (add-hook 'before-save-hook 'whitespace-cleanup)
    #+END_SRC
+
 
 
 ** Show and match bracket pairs
@@ -190,6 +192,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+END_SRC
 
 
+
 ** Allow deletion of highlighted regions
 
    I like to be able to select a region and delete it.
@@ -197,6 +200,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+BEGIN_SRC emacs-lisp
      (delete-selection-mode t)
    #+END_SRC
+
 
 
 ** Prefer two space character indentation
@@ -209,6 +213,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (setq-default tab-width 2)
      (setq-default indent-tabs-mode nil)
    #+END_SRC
+
 
 
 ** Automatic hard line-wrapping for textual modes
@@ -574,6 +579,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (use-package ruby-end
        :ensure t)
    #+END_SRC
+
 
 ** rspec
 
