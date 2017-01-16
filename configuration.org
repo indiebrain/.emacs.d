@@ -493,9 +493,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (setq projectile-enable-caching t)
       (setq projectile-indexing-method 'native)
       (setq projectile-completion-system 'ido)
+      (add-hook 'dired-mode-hook 'projectile-mode)
       (add-hook 'elixir-mode-hook 'projectile-mode)
-      (add-hook 'ruby-mode-hook 'projectile-mode)
       (add-hook 'js-mode-hook 'projectile-mode)
+      (add-hook 'ruby-mode-hook 'projectile-mode)
       (add-hook 'web-mode-hook 'projectile-mode))
   #+END_SRC
 
