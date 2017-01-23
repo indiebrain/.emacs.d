@@ -432,6 +432,18 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+END_SRC
 
 
+* JavaScript
+
+  I prefer that JavaScript files also indent using two space
+  characters.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package js-mode
+      :init
+      (setq js-indent-level 2))
+  #+END_SRC
+
+
 * Markdown
 
   I work with Github a lot. I work with other developers a lot. Not
