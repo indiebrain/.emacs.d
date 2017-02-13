@@ -515,7 +515,8 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t
       :commands (org-bullets-mode)
       :init
-      (add-hook 'org-mode-hook 'org-bullets-mode))
+      (add-hook 'org-mode-hook 'org-bullets-mode)
+      (require 'ox-md))
   #+END_SRC
 
 
