@@ -456,6 +456,20 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+END_SRC
 
 
+* JST
+
+  Here I add syntax support for working with JavaScript
+  Templates. Though I rarely work on projects which use JavaScript
+  Templates when a JST template opens in =Fundamental= mode it drives
+  me nuts.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package web-mode
+      :mode
+      (("\\.jst$" . web-mode)))
+  #+END_SRC
+
+
 * Markdown
 
   I work with Github a lot. I work with other developers a lot. Not
