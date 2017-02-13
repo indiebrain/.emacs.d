@@ -398,6 +398,18 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t)
   #+END_SRC
 
+** Embedded Elixir
+
+   When working with Elixir templates, use =web-mode= for better
+   syntax support.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package web-mode
+       :ensure t
+       :init
+       :mode
+       (("\\.eex$" . web-mode)))
+   #+END_SRC
 
 * Gist
 
