@@ -411,6 +411,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (("\\.eex$" . web-mode)))
    #+END_SRC
 
+
 * Gist
 
   My memory is terrible. To supplement I tend to keep notes in
@@ -703,3 +704,20 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :init
       (setq-default scss-compile-at-save nil))
   #+END_SRC
+
+
+* web-mode
+
+  When working with HTML templates, let's use an indentation style
+  that's consistent with other coding indentation rules.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package web-mode
+       :ensure t
+       :init
+       (setq web-mode-markup-indent-offset 2)
+       (setq web-mode-css-indent-offset 2)
+       (setq web-mode-code-indent-offset 2)
+       (setq web-mode-indent-style 2)
+       (setq web-mode-block-padding 2))
+   #+END_SRC
