@@ -154,7 +154,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Buffer preferences
 
-
 ** Ensure that files end with a newline character
 
    This tends to be part of the code-style of many organizations for
@@ -237,6 +236,25 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
    #+BEGIN_SRC emacs-lisp
      (setq truncte-lines t)
+   #+END_SRC
+
+
+* Window preferences
+
+** Arrangement
+
+   I edit multiple buffers across many open windows. Organization of
+   these windows becomes a chore and I always forget the window
+   resizing chords. [[https://github.com/terryfinn][Terry]] said "Give [[https://truongtx.me/2014/11/15/auto-resize-windows-by-golden-ratio-in-emacs][this]] a shot!" So I'm giving this
+   a shot.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package golden-ratio
+       :ensure t
+       :init
+       (setq split-width-threshold nil)
+       :config
+       (golden-ratio-mode 1))
    #+END_SRC
 
 
