@@ -142,13 +142,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+END_SRC
 
 
-** Disable soft line wrapping
 
-   I like to see long lines as long lines so that it's clear that I
-   should probably do something about them.
+** Line Wrapping
+
+   Use soft line wrapping for text modes
 
    #+BEGIN_SRC emacs-lisp
-     (setq truncate-lines t)
+     (add-hook 'markdown-mode-hook 'visual-line-mode)
+     (add-hook 'org-mode-hook 'visual-line-mode)
    #+END_SRC
 
 
@@ -215,28 +216,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 
 
-** Automatic hard line-wrapping for textual modes
-
-  Set the default hard line-wrap at 80 characters. Enable automatic
-  hard line-wrap for textual modes.
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package fill
-      :commands (auto-fill-mode)
-      :init
-      (set-fill-column 80)
-      (add-hook 'markdown-mode-hook 'auto-fill-mode)
-      (add-hook 'org-mode-hook 'auto-fill-mode))
-  #+END_SRC
-
-
-** Line wrapping
-
-   Disable soft line wrapping
-
-   #+BEGIN_SRC emacs-lisp
-     (setq truncte-lines t)
-   #+END_SRC
 
 
 * Window preferences
