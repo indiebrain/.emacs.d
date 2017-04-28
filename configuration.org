@@ -464,7 +464,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   characters.
 
   #+BEGIN_SRC emacs-lisp
-    (use-package js-mode
+    (use-package js
       :init
       (setq js-indent-level 2))
   #+END_SRC
