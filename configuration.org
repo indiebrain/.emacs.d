@@ -400,6 +400,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (("\\.eex$" . web-mode)))
    #+END_SRC
 
+** Tooling
+
+   I'm trying out the =alchemist= package for additional Elixir language and tooling support.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package alchemist
+       :ensure t)
+   #+END_SRC
 
 * Floobits
 
