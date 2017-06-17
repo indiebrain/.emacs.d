@@ -143,14 +143,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 
 
-** Line Wrapping
-
-   Use soft line wrapping for text modes
-
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'markdown-mode-hook 'visual-line-mode)
-     (add-hook 'org-mode-hook 'visual-line-mode)
-   #+END_SRC
 
 
 * Buffer preferences
@@ -668,7 +660,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
                    (setq compilation-scroll-output 'first-error))))
    #+END_SRC
 
-
 ** inf-ruby
 
    I want to be able to use the ruby REPL inside of emacs. This
@@ -680,7 +671,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        :init
        (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode))
    #+END_SRC
-
 
 ** erb
 
