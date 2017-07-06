@@ -60,6 +60,20 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * UI Preferences
 
+** Set font size
+
+   I like a slightly larger than usual font. This little helper allows
+   me to describe and set the font size in "points"
+
+   #+BEGIN_SRC emacs-lisp
+     (defun set-font-size (points)
+       (interactive "n Font Size in Points: ")
+       (cl-flet ((font-height (points) (* 10 points)))
+         (set-face-attribute 'default nil :height (font-height points))))
+
+     (set-font-size 14)
+   #+END_SRC
+
 ** Hide emacs startup message
 
    I don't find the emacs welcome message useful, so prevent it on startup.
@@ -408,6 +422,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (use-package alchemist
        :ensure t)
    #+END_SRC
+
 
 * Floobits
 
