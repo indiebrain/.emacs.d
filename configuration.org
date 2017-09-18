@@ -4,43 +4,30 @@ This emacs configuration is inspired by Harry R. Schwartz's "Getting
 started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 
-* Package Manager Configuration
+* Package Management
 
-** Use the built-in (Emacs 24+) package manager
+** Repositories
 
-   Disable the auto generation of =(require package)= in the init.el. I
-   already require =package= in this configuration so it's not needed.
+  Setup the package repositories. I use the canonical GNU repository, as
+  well as a handful of community supported repositories.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq package--init-file-ensured t)
-   #+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+    (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+    (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  #+END_SRC
 
-   Setup the package repositories. I use the canonical GNU repository, as
-   well as a handful of community supported repositories.
+** =use-package=
 
-   #+BEGIN_SRC emacs-lisp
-     (require 'package)
-     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-     (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-     (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-   #+END_SRC
+  Make sure use-package is installed. use-package is used to install,
+  and load/configure packages lazily. This should be the only package
+  that needs to be explicitly installed via the =package.el= manager.
 
-   Initialize the package system.
-
-   #+BEGIN_SRC emacs-lisp
-     (package-initialize)
-   #+END_SRC
-
-
-   Make sure use-package is installed. use-package is used to install,
-   and configure packages lazily. This should be the only package that
-   needs to be manually installed.
-
-   #+BEGIN_SRC emacs-lisp
-     (unless (package-installed-p 'use-package)
-       (package-refresh-contents)
-       (package-install 'use-package)
-       (require 'use-package))
+  #+BEGIN_SRC emacs-lisp
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package)
+      (require 'use-package))
   #+END_SRC
 
 
