@@ -78,19 +78,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   (setq initial-scratch-message "")
    #+END_SRC
 
-
-** Make scratch start in org-mode
-
-   If I am opening a scratch buffer it will likely end up being a org
-   document, or at the very least will be used to take some disposable
-   notes; either way defaulting to org mode will be handy the majority of
-   the time.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq initial-major-mode 'org-mode)
-   #+END_SRC
-
-
 ** Show the point's line and column numbers
 
    I don't use fringe line number, but I still like knowing the
@@ -513,14 +500,15 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   indentation level.
 
   #+BEGIN_SRC emacs-lisp
-  (use-package org
-    :ensure t
-    :config
-    (set-face-attribute 'org-level-1 nil :height 1.5)
-    (set-face-attribute 'org-level-2 nil :height 1.25)
-    (set-face-attribute 'org-level-3 nil :height 1.15)
-    (set-face-attribute 'org-level-4 nil :height 1.05)
-    (set-face-attribute 'org-level-5 nil :height 1.1))
+    (use-package org
+      :init
+      (package-initialize)
+      :config
+      (set-face-attribute 'org-level-1 nil :height 1.5)
+      (set-face-attribute 'org-level-2 nil :height 1.25)
+      (set-face-attribute 'org-level-3 nil :height 1.15)
+      (set-face-attribute 'org-level-4 nil :height 1.05)
+      (set-face-attribute 'org-level-5 nil :height 1.1))
   #+END_SRC
 
   This takes org-mode bullet lists one step farther. It renders
@@ -707,6 +695,33 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (use-package yaml-mode
        :ensure t)
    #+END_SRC
+
+
+* Static site/blog generation
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package org-page
+      ;;:disabled
+      :ensure t
+      :config
+      (setq op/repository-directory "~/Developer/indiebrain.github.io")
+      (setq op/site-domain "http://aaronkuehler.com")
+      (setq op/personal-github-link "https://github.com/indiebrain")
+      (setq op/site-main-title "Aaron Kuehler")
+      (setq op/site-sub-title "80% Scientist, 20% Artist. Theorist and Practitioner.")
+      (setq op/personal-google-analytics-id "UA-15178090-2")
+      (setq op/theme-root-directory "~/Developer/indiebrain.github.io/themes")
+      (setq op/category-config-alist
+            (cons '("resume"
+                    :show-meta nil
+                    :show-comment nil
+                    :uri-generator op/generate-uri
+                    :uri-template "/resume/"
+                    :sort-by :date
+                    :category-index nil)
+                  op/category-config-alist))
+      (setq op/theme 'indiebrain))
+  #+End_SRC
 
 
 * SASS
