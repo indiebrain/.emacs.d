@@ -561,6 +561,15 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+END_SRC
 
 
+* Regular Expressions
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package re-builder
+      :ensure t
+      :config
+      (setq reb-re-syntax 'string))
+  #+END_SRC
+
 * Ruby
 
 ** ruby-mode
