@@ -746,6 +746,8 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
                     :sort-by :date
                     :category-index nil)
                   op/category-config-alist))
+      (setq op/category-ignore-list
+            (cons "resume" op/category-ignore-list))
       (setq op/theme 'indiebrain))
   #+End_SRC
 
