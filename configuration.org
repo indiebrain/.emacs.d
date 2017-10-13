@@ -528,6 +528,29 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Project navigation
 
+  Use Helm as the fuzzy matching search backend for projectile.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package helm
+      :ensure t)
+
+    (use-package helm-projectile
+      :ensure t
+      :config
+      (helm-projectile-on))
+
+    (use-package ag
+      :ensure t)
+
+    (use-package helm-ag
+      :ensure t)
+
+    ;; For some reason, in dired-mode, projectile complains about not
+    ;; being able to find tramp so make sure that it's available here:
+    (use-package tramp
+      :ensure t)
+  #+END_SRC
+
   Make it easier to navigate through related groups of files --
   projects.
 
@@ -536,20 +559,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t
       :init
       (setq projectile-enable-caching t)
-      (setq projectile-indexing-method 'native)
-      (setq projectile-completion-system 'ido)
+      (setq projectile-indexing-method 'alien)
+      (setq projectile-completion-system 'helm)
+      (setq projectile-switch-project-action 'helm-projectile)
       (add-hook 'dired-mode-hook 'projectile-mode)
       (add-hook 'elixir-mode-hook 'projectile-mode)
       (add-hook 'js-mode-hook 'projectile-mode)
       (add-hook 'ruby-mode-hook 'projectile-mode)
       (add-hook 'web-mode-hook 'projectile-mode))
-  #+END_SRC
-
-  Enable fuzzy matching when searching for file names.
-
-  #+BEGIN_SRC emacs-lisp
-  (use-package flx-ido
-    :ensure t)
   #+END_SRC
 
   Make it easier to navigate between related concepts in Rails
