@@ -41,7 +41,9 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :if (memq window-system '(mac ns x))
       :ensure t
       :config
-      (exec-path-from-shell-initialize))
+      (exec-path-from-shell-initialize)
+      (setq exec-path (cons "/opt/local/bin" exec-path))
+      (setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH"))))
   #+END_SRC
 
 
