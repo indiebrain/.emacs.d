@@ -478,6 +478,18 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+END_SRC
 
 
+* Go
+
+  I'm starting to dabble a bit with [[http://www.golang.org][go]]. Of course I want editor
+  support.
+
+  #+BEGIN_SRC elisp
+    (use-package go
+      :ensure t
+      :init
+      (add-hook 'before-save-hook 'gofmt-before-save))
+  #+END_SRC
+
 * JavaScript
 
   I prefer that JavaScript files also indent using two space
