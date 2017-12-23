@@ -1231,6 +1231,12 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (setq op/theme 'indiebrain))
   #+End_SRC
 
+  I am human, sometimes I'm not as effective at expressing my ideas clearly in text. I use [[https://github.com/bnbeckwith/writegood-mode][writegood-mode]] to help me.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package writegood-mode
+      :ensure t)
+  #+END_SRC
 
 * SASS
 
