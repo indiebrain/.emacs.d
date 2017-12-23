@@ -470,9 +470,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+BEGIN_SRC elisp
     (use-package go
       :ensure t
-      :init
+      :config
       (add-hook 'before-save-hook 'gofmt-before-save))
   #+END_SRC
+
 
 * JavaScript
 
