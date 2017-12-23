@@ -1198,6 +1198,11 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Static site/blog generation
 
+  I generate my [[https://aaronkuehler.com][personal website]] from a set of org-mode source
+  files. I use [[I%20am%20pragmatic%20in%20my%20practice][org-page]] handle the heavy lifting. Here lies the
+  necessary configuration to automate the generation and publishing
+  process.
+
   #+BEGIN_SRC emacs-lisp
     (use-package org-page
       ;;:disabled
