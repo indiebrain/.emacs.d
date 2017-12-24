@@ -1214,6 +1214,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (setq op/site-main-title "Aaron Kuehler")
       (setq op/site-sub-title "80% Scientist, 20% Artist. Theorist and Practitioner.")
       (setq op/personal-google-analytics-id "UA-15178090-2")
+      (setq op/personal-disqus-shortname "aaronkuehler-com")
       (setq op/theme-root-directory "~/Developer/indiebrain.github.io/themes")
       (setq op/category-config-alist
             (cons '("resume"
@@ -1237,6 +1238,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
     (use-package writegood-mode
       :ensure t)
   #+END_SRC
+
 
 * SASS
 
