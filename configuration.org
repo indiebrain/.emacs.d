@@ -477,16 +477,21 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * JavaScript
 
-  I prefer that JavaScript files also indent using two space
-  characters.
+  Use the enhanced JavaScript editing mode - [[https://github.com/mooz/js2-mode][js2-mode]].
 
   #+BEGIN_SRC emacs-lisp
-    (use-package js
+    (use-package js2-mode
+      :ensure t
+      :interpreter
+      (("node" . js2-mode))
       :mode
-      ("\\.js\\'" . js-mode)
-      ("\\.jsx\\'" . js-mode)
+      ("\\.js$" . js2-mode)
+      ("\\.json$" . js2-mode)
       :init
-      (setq js-indent-level 2))
+      (setq js2-highlight-level 3)
+      (setq js2-mode-show-parse-errors t)
+      (setq js2-mode-show-strict-warnings t)
+      (setq js2-basic-offset 2))
   #+END_SRC
 
 
