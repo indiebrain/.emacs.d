@@ -507,6 +507,17 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (("\\.jst$" . web-mode)))
   #+END_SRC
 
+** JSX
+
+   Add support for Facebook's XML-like JavaScript extensions to ECMAScript
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package rjsx-mode
+       :ensure t
+       :mode
+       ("components\\/.*\\.js\\'" . rjsx-mode)
+       ("containers\\/.*\\.js\\'" . rjsx-mode))
+   #+END_SRC
 
 * Markdown
 
