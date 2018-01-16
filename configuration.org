@@ -494,8 +494,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (setq js2-basic-offset 2))
   #+END_SRC
 
-
-* JST
+** JST
 
   Here I add syntax support for working with JavaScript
   Templates. Though I rarely work on projects which use JavaScript
@@ -507,6 +506,18 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :mode
       (("\\.jst$" . web-mode)))
   #+END_SRC
+
+** JSX
+
+   After avoiding it for 4 years, I've started working with
+   [[https://reactjs.org/][React.js]].
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package jsx-mode
+       :ensure t
+       :mode
+       ("\\.jsx\\'" . jsx-mode))
+   #+END_SRC
 
 
 * Markdown
