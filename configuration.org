@@ -507,18 +507,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (("\\.jst$" . web-mode)))
   #+END_SRC
 
-** JSX
-
-   After avoiding it for 4 years, I've started working with
-   [[https://reactjs.org/][React.js]].
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package jsx-mode
-       :ensure t
-       :mode
-       ("\\.jsx\\'" . jsx-mode))
-   #+END_SRC
-
 
 * Markdown
 
