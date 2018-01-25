@@ -1228,7 +1228,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t
       :config
       (setq op/repository-directory "~/Developer/indiebrain.github.io")
-      (setq op/site-domain "http://aaronkuehler.com")
+      (setq op/site-domain "https://aaronkuehler.com")
       (setq op/personal-github-link "https://github.com/indiebrain")
       (setq op/site-main-title "Aaron Kuehler")
       (setq op/site-sub-title "80% Scientist, 20% Artist. Theorist and Practitioner.")
