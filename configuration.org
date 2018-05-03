@@ -531,6 +531,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package org
+      :ensure org-plus-contrib
       :init
       (package-initialize)
       :config
