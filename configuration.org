@@ -145,6 +145,18 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Buffer preferences
 
+
+** Prefer two space character indentation
+
+   In my experience, whitespace is more portable than <tab>
+   characters. As such, I use two white-space characters for
+   indentation.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq-default tab-width 2)
+     (setq-default indent-tabs-mode nil)
+   #+END_SRC
+
 ** Ensure that files end with a newline character
 
    This tends to be part of the code-style of many organizations for
