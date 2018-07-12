@@ -455,16 +455,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t)
   #+END_SRC
 
-
 * Git
 
-** Setup Magit
+** Magit
 
-   I use git a lot. I do /not/ use magit a lot, but it's always on
-   that list of "Ya, I'm not giving it a fair shot, but I'd like to
-   use it more often."  tools. I include it here as a reminder to
-   myself that I should invest more time to incorporate it into my
-   workflow.
+   Magit is a staple of my interaction with git. Its fast, and
+   intuitive interface allow me to quickly complete interactions with
+   the git Version Control System without lots of repetitive typing or
+   cryptic aliases.
 
    #+BEGIN_SRC emacs-lisp
      (use-package magit
