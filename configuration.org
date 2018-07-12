@@ -318,7 +318,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :diminish flyspell-mode
       :commands (flyspell-prog-mode flyspell-mode)
       :init
-      (if (string-equal system-type "darwin") (setq ispell-program-name "/usr/local/bin/ispell"))
+      (if (string-equal system-type "darwin") (setq ispell-program-name "/usr/local/bin/aspell"))
       (add-hook 'ruby-mode-hook 'flyspell-prog-mode)
       (add-hook 'markdown-mode-hook 'flyspell-mode)
       (add-hook 'org-mode-hook 'flyspell-mode)
