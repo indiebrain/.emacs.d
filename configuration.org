@@ -57,7 +57,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (cl-flet ((font-height (points) (* 10 points)))
    (set-face-attribute 'default nil :height (font-height points))))
 
-     (set-font-size 16)
+     (set-font-size 18)
    #+END_SRC
 
 ** Hide emacs startup message
@@ -515,11 +515,11 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :init
       (package-initialize)
       :config
-      (set-face-attribute 'org-level-1 nil :height 1.5)
-      (set-face-attribute 'org-level-2 nil :height 1.25)
-      (set-face-attribute 'org-level-3 nil :height 1.15)
-      (set-face-attribute 'org-level-4 nil :height 1.05)
-      (set-face-attribute 'org-level-5 nil :height 1.1))
+      (set-face-attribute 'org-level-1 nil :height 2.0)
+      (set-face-attribute 'org-level-2 nil :height 1.75)
+      (set-face-attribute 'org-level-3 nil :height 1.65)
+      (set-face-attribute 'org-level-4 nil :height 1.55)
+      (set-face-attribute 'org-level-5 nil :height 1.5))
   #+END_SRC
 
   This takes org-mode bullet lists one step farther. It renders
