@@ -493,42 +493,32 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
     (use-package js2-mode
       :ensure t
       :interpreter
-      (("node" . js2-mode))
-      :mode
-      ("\\.js$" . js2-mode)
-      ("\\.json$" . js2-mode)
-      :init
+      ("node" . js2-mode)
+      :config
+      (setq js2-basic-offset 2)
       (setq js2-highlight-level 3)
       (setq js2-mode-show-parse-errors t)
-      (setq js2-mode-show-strict-warnings t)
-      (setq js2-basic-offset 2))
+      (setq js2-mode-show-strict-warnings t))
   #+END_SRC
 
-** JST
-
-  Here I add syntax support for working with JavaScript
-  Templates. Though I rarely work on projects which use JavaScript
-  Templates when a JST template opens in =Fundamental= mode it drives
-  me nuts.
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package web-mode
-      :mode
-      (("\\.jst$" . web-mode)))
-  #+END_SRC
-
-** JSX
+** React / JSX
 
    Add support for Facebook's XML-like JavaScript extensions to ECMAScript
 
    #+BEGIN_SRC emacs-lisp
      (use-package rjsx-mode
        :ensure t
+       :interpreter
+       ("node" . rjsx-mode)
        :mode
-       ("components\\/.*\\.js\\'" . rjsx-mode)
-       ("containers\\/.*\\.js\\'" . rjsx-mode))
-   #+END_SRC
+       ("\\.jsx?\\'" . rjsx-mode)
+       :config
+       (setq js2-basic-offset 2)
+       (setq js2-highlight-level 3)
+       (setq js2-mode-show-parse-errors t)
+       (setq js2-mode-show-strict-warnings t))
 
+   #+END_SRC
 
 * Markdown
 
