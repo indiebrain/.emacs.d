@@ -367,15 +367,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t)
   #+END_SRC
 
-  Manage containers, images, volumes, networks, and machines directly form within emacs
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package docker
-      :ensure t
-      :init
-      (docker-global-mode))
-  #+END_SRC
-
 * Elixir
 
   I dabble with a bit of [[http://elixir-lang.org/][Elixir]] here and there so I include support
