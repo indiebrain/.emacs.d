@@ -608,7 +608,9 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (add-hook 'elixir-mode-hook 'projectile-mode)
       (add-hook 'js-mode-hook 'projectile-mode)
       (add-hook 'ruby-mode-hook 'projectile-mode)
-      (add-hook 'web-mode-hook 'projectile-mode))
+      (add-hook 'web-mode-hook 'projectile-mode)
+      (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
   #+END_SRC
 
   Make it easier to navigate between related concepts in Rails
