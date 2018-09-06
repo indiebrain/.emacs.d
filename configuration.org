@@ -723,9 +723,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (add-hook 'after-init-hook 'inf-ruby-switch-setup)
        :config
        (add-hook 'rspec-compilation-mode-hook
-     (lambda ()
-       (make-local-variable 'compilation-scroll-output)
-       (setq compilation-scroll-output 'first-error))))
+                 (lambda ()
+                   (company-mode -1)
+                   (make-local-variable 'compilation-scroll-output)
+                   (setq compilation-scroll-output 'first-error))))
    #+END_SRC
 
 ** inf-ruby
@@ -737,7 +738,11 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (use-package inf-ruby
        :ensure t
        :init
-       (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode))
+       (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
+       :config
+       (add-hook 'inf-ruby-mode-hook
+                 (lambda ()
+                   (company-mode -1))))
    #+END_SRC
 
 ** erb
