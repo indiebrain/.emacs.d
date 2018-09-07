@@ -261,18 +261,11 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    When I leave emacs or change a buffer, auto-save all open buffers.
 
    #+BEGIN_SRC emacs-lisp
-     (defun save-all ()
-       "Save all open buffers"
-       (interactive)
-       (save-some-buffers t))
-
-     (add-hook 'focus-out-hook 'save-all)
-
-     (defadvice switch-to-buffer (before save-buffer-now activate)
-       (when buffer-file-name (save-all)))
-
-     (defadvice other-window (before other-window-now activate)
-       (when buffer-file-name (save-all)))
+     (use-package super-save
+       :ensure t
+       :init
+       (super-save-mode t)
+       (setq super-save-auto-save-when-idle t))
    #+END_SRC
 
 * Better scrolling
