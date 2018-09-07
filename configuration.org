@@ -263,13 +263,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    #+BEGIN_SRC emacs-lisp
      (defun save-all ()
        "Save all open buffers"
-   (interactive)
-   (save-some-buffers t))
+       (interactive)
+       (save-some-buffers t))
 
-      (add-hook 'focus-out-hook 'save-all)
+     (add-hook 'focus-out-hook 'save-all)
 
      (defadvice switch-to-buffer (before save-buffer-now activate)
        (when buffer-file-name (save-all)))
+
      (defadvice other-window (before other-window-now activate)
        (when buffer-file-name (save-all)))
    #+END_SRC
