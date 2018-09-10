@@ -504,7 +504,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (set-face-attribute 'org-level-2 nil :height 1.75)
       (set-face-attribute 'org-level-3 nil :height 1.65)
       (set-face-attribute 'org-level-4 nil :height 1.55)
-      (set-face-attribute 'org-level-5 nil :height 1.5))
+      (set-face-attribute 'org-level-5 nil :height 1.5)
+      (setq org-todo-keywords
+            '((sequence "TODO"
+                        "STARTED"
+                        "|"
+                        "DONE")))
+      (setq org-todo-keyword-faces
+            '(("TODO" :foreground "green" :weight bold)
+              ("STARTED" :foreground "orange" :weight bold)
+              ("DONE" :foreground "red" :weight bold))))
   #+END_SRC
 
   This takes org-mode bullet lists one step farther. It renders
