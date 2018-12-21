@@ -3,6 +3,7 @@ auto-save-list/*
 ac-comphist.dat
 backups
 elpa/*
+forge-database.sqlite
 ido.last
 projectile-bookmarks.eld
 projectile.cache

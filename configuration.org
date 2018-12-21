@@ -424,6 +424,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        :bind ("C-x g" . magit-status))
    #+END_SRC
 
+** Forge
+
+   [[https://github.com/magit/forge][Forge]] extends Magit to work with Github and Gitlab - pull requests,
+   tokens, etc.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package forge
+       :ensure t)
+   #+END_SRC
+
 * Go
 
   I'm starting to dabble a bit with [[http://www.golang.org][go]]. Of course I want editor
