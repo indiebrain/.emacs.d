@@ -569,6 +569,8 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Project navigation
 
+** Fuzzy searching names and content
+
   Use Helm as the fuzzy matching search backend for projectile.
 
   #+BEGIN_SRC emacs-lisp
@@ -595,6 +597,39 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
     (use-package tramp
       :ensure t)
   #+END_SRC
+
+** Interactively find/edit matching lines
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package helm-swoop
+      :ensure t
+      :bind (("M-i" . 'helm-swoop)
+             ("M-I" . 'helm-swoop-back-to-last-point)
+             ("C-c M-i" . 'helm-multi-swoop)
+             ("C-x M-i" . 'helm-multi-swoop-all))
+      :init
+      ;; Save buffer when helm-multi-swoop-edit complete
+      (setq helm-multi-swoop-edit-save t)
+      ;; If this value is t, split window inside the current window
+      (setq helm-swoop-split-with-multiple-windows nil)
+      ;; If this value is t, split window inside the current window
+      (setq helm-swoop-split-with-multiple-windows nil)
+      ;; If you prefer fuzzy matching
+      (setq helm-swoop-use-fuzzy-match t)
+      :config
+      ;; When doing isearch, hand the word over to helm-swoop
+      (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+      ;; From helm-swoop to helm-multi-swoop-all
+      (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
+      ;; Instead of helm-multi-swoop-all, you can also use helm-multi-swoop-current-mode
+      (define-key helm-swoop-map (kbd "M-m") 'helm-multi-swoop-current-mode-from-helm-swoop)
+      (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
+      (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
+      (define-key helm-multi-swoop-map (kbd "C-r") 'helm-previous-line)
+      (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line))
+  #+END_SRC
+
+** Group related filesystem items into "Projects"
 
   Make it easier to navigate through related groups of files --
   projects.
