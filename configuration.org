@@ -341,6 +341,24 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (add-to-list 'company-backends 'company-math-symbols-unicode))
   #+END_SRC
 
+* Bash
+
+** Bash Automated Test System
+
+   [[https://github.com/sstephenson/bats][BATS]] is a [[http://testanything.org/][TAP]]-compliant testing framework for Bash. It provides a
+   simple way to verify that the UNIX programs you write behave as
+   expected.
+
+   Bats is most useful when testing software written in Bash, but you
+   can use it to test any UNIX program.
+
+   [[https://github.com/dougm/bats-mode][bats-mode]] is an editing-mode and runner for BATS tests
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package bats-mode
+       :ensure t)
+   #+END_SRC
+
 * CSS
 
   Seems css-mode ignores global indentations settings, so lets specifically set that now.
