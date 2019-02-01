@@ -578,13 +578,11 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
                    (lambda ()
                      (org-present-big)
                      (org-display-inline-images)
-                     (org-present-hide-cursor)
                      (org-present-read-only)))
          (add-hook 'org-present-mode-quit-hook
                    (lambda ()
                      (org-present-small)
                      (org-remove-inline-images)
-                     (org-present-show-cursor)
                      (org-present-read-write))))
   #+END_SRC
 
