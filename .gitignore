@@ -12,3 +12,4 @@ network-security.data
 configuration.el
 tramp
 session*
+transient*
