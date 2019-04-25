@@ -218,6 +218,17 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (golden-ratio-mode 1))
    #+END_SRC
 
+* Modeline
+
+  Make the [[https://www.emacswiki.org/emacs/ModeLine][mode line]] slightly more visually organized.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package powerline
+      :ensure t
+      :config
+      (powerline-default-theme))
+  #+END_SRC
+
 * Auto-save and Backups Behavior
 
 ** Centralize auto-save and backup locations
