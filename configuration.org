@@ -1339,20 +1339,20 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (setq op/personal-google-analytics-id "UA-113071078-1")
       (setq op/personal-disqus-shortname "aaronkuehler-com")
       (setq op/theme-root-directory "~/Developer/indiebrain.github.io/themes")
+      (setq op/theme 'indiebrain)
       (setq op/category-config-alist
-      (cons '("resume"
-        :show-meta nil
-        :show-comment nil
-        :uri-generator op/generate-uri
-        :uri-template "/resume/"
-        :sort-by :date
-        :category-index nil)
-      op/category-config-alist))
+            (cons '("resume"
+                    :show-meta nil
+                    :show-comment nil
+                    :uri-generator op/generate-uri
+                    :uri-template "/resume/"
+                    :sort-by :date
+                    :category-index nil)
+                  op/category-config-alist))
       (setq op/category-ignore-list
-      (cons "resume" op/category-ignore-list))
+            (cons "resume" op/category-ignore-list))
       (setq op/category-ignore-list
-      (cons "drafts" op/category-ignore-list))
-      (setq op/theme 'indiebrain))
+            (cons "drafts" op/category-ignore-list)))
   #+End_SRC
 
   I am human, sometimes I'm not as effective at expressing my ideas clearly in text. I use [[https://github.com/bnbeckwith/writegood-mode][writegood-mode]] to help me.
