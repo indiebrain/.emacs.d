@@ -707,6 +707,18 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
     (use-package restclient
       :ensure t)
   #+END_SRC
+
+  Furthermore, integrate =restclient= mode in to org documents via org-babel
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package ob-restclient
+      :ensure t)
+
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((restclient . t)))
+  #+END_SRC
+
 * Regular Expressions
 
   #+BEGIN_SRC emacs-lisp
