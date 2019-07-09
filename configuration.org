@@ -300,7 +300,8 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (flycheck-add-mode 'javascript-eslint 'js-mode)
       (flycheck-add-mode 'javascript-eslint 'js2-mode)
       (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-      (setq flycheck-javascript-eslint-executable "node_modules/.bin/eslint"))
+      (setq flycheck-javascript-eslint-executable "node_modules/.bin/eslint")
+      (setq flycheck-ruby-rubocop-executable "bin/rubocop"))
   #+END_SRC
 
 * Spell Checking
