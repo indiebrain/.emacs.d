@@ -290,16 +290,17 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   does this well, and has many plugins that I can enable in other
   modes, so lets make sure it is installed and enabled here.
 
-  Here I explicitly set a path to the rubocop configuration as many of
-  the projects I'm currently contributing to do not use the standard
-  =<project_root>/.rubocop.yml= location.
-
   #+BEGIN_SRC emacs-lisp
     (use-package flycheck
       :ensure t
       :init
-      (add-hook 'after-init-hook 'global-flycheck-mode)
-      (setq flycheck-rubocoprc "config/lint/.ruby-style.yml"))
+      (add-hook 'after-init-hook #'global-flycheck-mode)
+      :config
+      (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(javascript-jshint)))
+      (flycheck-add-mode 'javascript-eslint 'js-mode)
+      (flycheck-add-mode 'javascript-eslint 'js2-mode)
+      (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+      (setq flycheck-javascript-eslint-executable "node_modules/.bin/eslint"))
   #+END_SRC
 
 * Spell Checking
@@ -1305,7 +1306,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t
       :init
       (with-eval-after-load 'rust-mode
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+        (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
     (use-package rust-mode
       :ensure t
