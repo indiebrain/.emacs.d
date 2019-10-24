@@ -466,6 +466,21 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (add-hook 'before-save-hook #'gofmt-before-save))
   #+END_SRC
 
+* GraphQL
+
+  Turns emacs into a graphql client
+
+  #+begin_src elisp
+    (use-package graphql-mode
+      :ensure t)
+  #+end_src
+
+  Ensures that GraphQL queries can be executed from the buffer by using C-c C-c.
+
+  #+begin_src elisp
+    (use-package request
+      :ensure t)
+  #+end_src
 * JavaScript
 
   Use the enhanced JavaScript editing mode - [[https://github.com/mooz/js2-mode][js2-mode]].

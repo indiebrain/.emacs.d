@@ -14,3 +14,5 @@ tramp
 session*
 transient*
 url*
+history
+request/
