@@ -57,7 +57,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (cl-flet ((font-height (points) (* 10 points)))
          (set-face-attribute 'default nil :height (font-height points))))
 
-     (set-font-size 16)
+     (set-font-size 14)
    #+END_SRC
 
 ** Hide emacs startup message
