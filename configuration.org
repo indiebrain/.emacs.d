@@ -46,23 +46,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * UI Preferences
 
-** Set default font
-
- I pair with folks who have dyslexia. They've turned me onto this boss
- open-source family of fonts called [[https://opendyslexic.org/about][OpenDyslexia]]. The OpenDyslexia
- font seeks to aid folks who struggle with contrast/blindness, letter
- confusion or rotation, and crowding. The font's grown on me over time
- and I'm incorporatinig it as the default font on hosts what have the
- font installed here because 1. I'm rather fond of it, and 2. if it
- makes pairing with my friends and coworkers easier I'm all for it.
-
- #+begin_src emacs-lisp
-   (let ((font-name "OpenDyslexicMono"))
-     (when (find-font (font-spec :name font-name))
-       (set-face-attribute 'default nil :font font-name)
-       (set-frame-font font-name nil t)))
- #+end_src
-
 ** Set font size
 
    I like a slightly larger than usual font. This little helper allows
