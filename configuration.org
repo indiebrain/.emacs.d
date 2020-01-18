@@ -134,6 +134,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (add-hook 'org-mode-hook 'visual-line-mode)
    #+END_SRC
 
+** Region Highlighting
+
+   Make the region selection a bit easier to see.
+
+   #+begin_src emacs-lisp
+     (set-face-attribute 'region nil :background "#666")
+   #+end_src
+
 * Buffer preferences
 
 ** Prefer two space character indentation
@@ -461,15 +469,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        :bind ("C-x g" . magit-status))
    #+END_SRC
 
-** Forge
-
-   [[https://github.com/magit/forge][Forge]] extends Magit to work with Github and Gitlab - pull requests,
-   tokens, etc.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package forge
-       :ensure t)
-   #+END_SRC
 
 * Go
 
