@@ -351,6 +351,28 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (add-to-list 'company-backends 'company-math-symbols-unicode))
   #+END_SRC
 
+* Auto Insert
+
+  Automatically insert bits into buffers
+
+  #+begin_src emacs-lisp
+    (use-package autoinsert
+      :hook ((prog-mode yaml-mode) . auto-insert-mode)
+      :config
+      (setq auto-insert-query nil)
+      (setq auto-insert-alist
+            (-cons*
+             '("\\.rb\\'" nil "# frozen_string_literal: true\n")
+             auto-insert-alist)))
+  #+end_src
+
+  #+begin_src emacs-lisp
+    (use-package header2
+      :ensure t
+      :config
+      (add-hook 'ruby-mode 'auto-make-header))
+  #+end_src
+
 * Bash
 
 ** Bash Automated Test System
