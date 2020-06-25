@@ -94,7 +94,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (use-package gruvbox-theme
        :ensure t
        :config
-       (load-theme 'gruvbox-dark-medium t))
+       (load-theme 'gruvbox-light-soft t))
    #+END_SRC
 
 ** Disable menu, toolbar, and scrollbar UI elements
