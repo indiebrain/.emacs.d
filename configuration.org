@@ -226,6 +226,27 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (golden-ratio-mode 1))
    #+END_SRC
 
+* Authentication
+
+  Some of my emacs packages, like =magit=, require authentication
+  credentials to interact with 3rd party services I use, like
+  =Github=, =Gitlab=, etc. I store credentials encrypted by my GPG
+  keys in =~/.authinfo.gpg=. Here I tell emacs where to find such credentials.
+
+  To create the =~/.authinfo.gpg=:
+
+  1. Create a plaintext =~/.authinfo= file
+  2. Place authentication credentials - an example for =magit=
+     #+begin_src text
+       machine api.github.com login <github-username>^forge password <api-token>
+     #+end_src
+  3. Use emacs' "EasyPG" to encrypt the file with my gpg key and save it as =~/.authinfo.gpg= - =M-x epa-encrypt-file=
+  4. Remove the plaintext =~/.authinfo=
+
+  #+begin_src emacs-lisp
+    (setq auth-sources '("~/.authinfo.gpg"))
+  #+end_src
+
 * Auto-save and Backups Behavior
 
 ** Centralize auto-save and backup locations
