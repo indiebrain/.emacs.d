@@ -601,6 +601,21 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
    #+END_SRC
 
+* lsp-mode
+
+  #+begin_src emacs-lisp
+    ;; Ruby lsp-server integration requires "gem install solargraph"
+    ;;   - https://emacs-lsp.github.io/lsp-mode/page/lsp-solargrap/
+    ;; Install the rust rls lsp-server via rustup "rustup component add rls rust-analysis rust-src"
+    ;;   - https://github.com/rust-lang/rls#setup
+    (use-package lsp-mode
+      :ensure t
+      :hook (
+             (ruby-mode . lsp-deferred)
+             (rust-mode . lsp-deferred))
+        :commands (lsp lsp-deferred))
+  #+end_src
+
 * Markdown
 
   I work with Github a lot. I work with other developers a lot. Not
