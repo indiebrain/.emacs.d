@@ -383,7 +383,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (setq auto-insert-query nil)
       (setq auto-insert-alist
             (-cons*
-             '("\\.rb\\'" nil "# frozen_string_literal: true\n")
+             '("\\.rb$" nil "# frozen_string_literal: true\n")
              auto-insert-alist)))
   #+end_src
 
@@ -592,7 +592,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        :interpreter
        ("node" . rjsx-mode)
        :mode
-       ("\\.jsx?\\'" . rjsx-mode)
+       ("\\.jsx?$'" . rjsx-mode)
        :config
        (setq js2-basic-offset 2)
        (setq js2-highlight-level 3)
@@ -812,8 +812,8 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+BEGIN_SRC emacs-lisp
     (use-package restclient
        :mode
-       ("\\.rest\\'" . restclient-mode)
-       ("\\.restclient\\'" . restclient-mode)
+       ("\\.rest$" . restclient-mode)
+       ("\\.restclient$" . restclient-mode)
       :ensure t)
   #+END_SRC
 
@@ -954,13 +954,13 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 ** erb
 
-   Use =web-mode= to edit ERB templates
+   Use =web-mode= to edit HTML ERB templates
 
    #+BEGIN_SRC emacs-lisp
      (use-package web-mode
        :ensure t
        :mode
-       ("\\.erb\\'" . web-mode)
+       ("\\html.erb$" . web-mode)
        :init
        (setq web-mode-markup-indent-offset 2))
    #+END_SRC
@@ -972,6 +972,11 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package yaml-mode
+       :mode(
+             ("\\.yml$" . yaml-mode)
+             ("\\.yaml$" . yaml-mode)
+             ("\\.yml.erb$" . yaml-mode)
+             ("\\.yaml.erb$" . yaml-mode))
        :ensure t)
    #+END_SRC
 
