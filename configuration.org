@@ -1434,13 +1434,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
     (use-package rust-mode
       :ensure t
-      :bind (
-             ("C-c C-c" . rust-run)
+      :bind (("C-c C-c" . rust-run)
              ("C-c C-b" . rust-compile)
              ("C-c C-t" . rust-test)
              ("C-c C-l" . rust-run-clippy))
       :init
-      (setq rust-format-on-save t))
+      (add-hook 'before-save-hook
+                (lambda () (when (eq 'rust-mode major-mode)
+                             (lsp-format-buffer)))))
   #+END_SRC
 
   Add minor-mode for the rust package manager [[https://doc.rust-lang.org/stable/cargo/][cargo]]
