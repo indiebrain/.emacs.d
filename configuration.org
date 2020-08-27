@@ -4,6 +4,11 @@ This emacs configuration is inspired by Harry R. Schwartz's "Getting
 started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Package Management
+** Use the =package= package to manage packages
+
+#+begin_src emacs-lisp
+  (require 'package)
+#+end_src
 
 ** Repositories
 
