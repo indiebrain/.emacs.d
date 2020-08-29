@@ -423,7 +423,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package css-mode
-      :ensure t
       :init
       (setq css-indent-offset 2))
   #+END_SRC
