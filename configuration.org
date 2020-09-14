@@ -353,8 +353,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (add-hook 'markdown-mode-hook 'flyspell-mode)
       (add-hook 'org-mode-hook 'flyspell-mode)
       (add-hook 'text-mode-hook 'flyspell-mode))
-
-
   #+END_SRC
 
 * Auto Complete
@@ -426,6 +424,17 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :init
       (setq css-indent-offset 2))
   #+END_SRC
+
+* Caddy
+
+  I've switched to using [[https://caddyserver.com/][caddy]] as my preferred webserver / reverse
+  proxy. I store persistent caddy configuration using the [[https://caddyserver.com/docs/caddyfile-tutorial][Caddyfile
+  DSL]]. This bit adds highlighting, indenting, etc for Caddyfile.
+
+  #+begin_src emacs-lisp
+    (use-package caddyfile-mode
+      :ensure t)
+  #+end_src
 
 * Docker
 
