@@ -725,15 +725,49 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 ** Fuzzy searching names and content
 
-  Use ivy as the fuzzy matching search backend for projectile.
+  **A note, and a thank you**: I've used [[https://github.com/emacs-helm/helm][emacs-helm]] to achieve all of
+  this in the past. Thierry, the maintainer of =emacs-helm= has archived the
+  project to focus on other priorities. Thierry, if by some stroke of
+  the cosmic alignment you happen to see this, merci et bon courage.
 
-  #+BEGIN_SRC emacs-lisp
+  For now, I'm trying out [[https://oremacs.com/swiper/][Ivy, Swiper, and Counsel]] as an immediate
+  replacement for emacs-helm.
+
+  Use [[https://github.com/ggreer/the_silver_searcher][The Silver Searcher]] to search through the contents of files.
+  #+begin_src emacs-lisp
+    ;; Search using "The silver searcher" (ag)
+    (use-package ag
+      :ensure t)
+  #+end_src
+
+  When creating a buffer of swiper resutls - with C-o - allow this
+  buffer of results to become editable.
+  #+begin_src emacs-lisp
+    (use-package wgrep
+      :ensure t)
+  #+end_src
+
+  Use ivy completions for default
+  functions in emacs - M-x, find-file, switch-buffer, etc.
+  #+begin_src emacs-lisp
     (use-package counsel
       :ensure t)
+  #+end_src
 
+  Use ivy as the completion system for =projectile-mode=
+  #+begin_src emacs-lisp
     (use-package counsel-projectile
       :ensure t)
+  #+end_src
 
+  Perform actions across ivy search results with C-o in the minibuffer.
+  #+begin_src emacs-lisp
+    (use-package ivy-hydra
+      :ensure t
+      :after ivy)
+  #+end_src
+
+  #+begin_src emacs-lisp
     (use-package ivy
       :ensure t
       :init
@@ -762,10 +796,8 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (global-set-key (kbd "C-x l") 'counsel-locate)
       (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
       (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+  #+end_src
 
-    (use-package ag
-      :ensure t)
-  #+END_SRC
 
 ** Group related filesystem items into "Projects"
 
