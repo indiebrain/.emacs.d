@@ -873,6 +873,15 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (global-set-key (kbd "C-c C-r") 'ivy-resume)
       (global-set-key (kbd "<f6>") 'ivy-resume)
       (global-set-key (kbd "M-x") 'counsel-M-x)
+      ;;; C-M-j (ivy-immediate-done)
+      ;;;
+      ;;; Exits with the current input instead of the current
+      ;;; candidate (like other commands).
+      ;;;
+      ;;;  This is useful e.g. when you call find-file to create a new
+      ;;;  file, but the desired name matches an existing file. In that
+      ;;;  case, using C-j would select that existing file, which isn't
+      ;;;  what you want - use this command instead.
       (global-set-key (kbd "C-x C-f") 'counsel-find-file)
       (global-set-key (kbd "<f1> f") 'counsel-describe-function)
       (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
