@@ -847,6 +847,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :after ivy)
   #+end_src
 
+  When using =ivy-regex-fuzzy= the fuzzy matcher often results in
+  substantially more matching candidates than the regular one for
+  similar input. That's why some kind of sorting is important to bring
+  the more relevant matching candidates to the start of the list.
+
+  #+begin_src emacs-lisp
+    (use-package flx
+      :ensure t)
+  #+end_src
+
   #+begin_src emacs-lisp
     (use-package ivy
       :ensure t
