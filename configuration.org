@@ -16,9 +16,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   well as a handful of community supported repositories.
 
   #+BEGIN_SRC emacs-lisp
-    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-    (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-    (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                             ("melpa" . "https://melpa.org/packages/")
+                             ("marmalade" . "http://marmalade-repo.org")
+                             ("org" . "http://orgmode.org/elpa/")))
   #+END_SRC
 
 ** =use-package=
