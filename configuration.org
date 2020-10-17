@@ -516,15 +516,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t)
   #+end_src
 
-* Docker
-
-  Working with Dockerfiles? Why not add syntax highlighting and the ability to build images with =C-c C-b=?
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package dockerfile-mode
-      :ensure t)
-  #+END_SRC
-
 * Diff-hl
 
   Highlight SCM changes in the gutter
@@ -537,7 +528,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (diff-hl-flydiff-mode))
   #+end_src
 
-* docker-tramp
+* Docker
+
+  Working with Dockerfiles? Why not add syntax highlighting and the ability to build images with =C-c C-b=?
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package dockerfile-mode
+      :ensure t)
+  #+END_SRC
+
+* Docker-tramp
 
   Use docker-tramp to allow editing of files inside running
   containers. We use docker in development mode a bunch and it's a
