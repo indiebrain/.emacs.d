@@ -806,14 +806,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 ** Fuzzy searching names and content
 
-  **A note, and a thank you**: I've used [[https://github.com/emacs-helm/helm][emacs-helm]] to achieve all of
-  this in the past. Thierry, the maintainer of =emacs-helm= has archived the
-  project to focus on other priorities. Thierry, if by some stroke of
-  the cosmic alignment you happen to see this, merci et bon courage.
-
-  For now, I'm trying out [[https://oremacs.com/swiper/][Ivy, Swiper, and Counsel]] as an immediate
-  replacement for emacs-helm.
-
   Use [[https://github.com/ggreer/the_silver_searcher][The Silver Searcher]] to search through the contents of files.
   #+begin_src emacs-lisp
     ;; Search using "The silver searcher" (ag)
@@ -821,105 +813,27 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       :ensure t)
   #+end_src
 
-  When creating a buffer of swiper resutls - with C-o - allow this
-  buffer of results to become editable.
-  #+begin_src emacs-lisp
-    (use-package wgrep
-      :ensure t)
-  #+end_src
-
-  Use ivy completions for default
-  functions in emacs - M-x, find-file, switch-buffer, etc.
-  #+begin_src emacs-lisp
-    (use-package counsel
-      :ensure t)
-  #+end_src
-
-  Use ivy as the completion system for =projectile-mode=
-  #+begin_src emacs-lisp
-    (use-package counsel-projectile
-      :ensure t)
-  #+end_src
-
-  Perform actions across ivy search results with C-o in the minibuffer.
-  #+begin_src emacs-lisp
-    (use-package ivy-hydra
-      :ensure t
-      :after ivy)
-  #+end_src
-
-  When using =ivy-regex-fuzzy= the fuzzy matcher often results in
-  substantially more matching candidates than the regular one for
-  similar input. That's why some kind of sorting is important to bring
-  the more relevant matching candidates to the start of the list.
-
-  #+begin_src emacs-lisp
-    (use-package flx
-      :ensure t)
-  #+end_src
-
-  #+begin_src emacs-lisp
-    (use-package ivy
-      :ensure t
-      :init
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t)
-      (setq enable-recursive-minibuffers t)
-      ;; enable this if you want `swiper' to use it
-      ;; (setq search-default-mode #'char-fold-to-regexp)
-      (setq ivy-re-builders-alist
-          '((swiper . ivy--regex-plus)
-            (t      . ivy--regex-fuzzy)))
-      (global-set-key "\C-s" 'swiper)
-      (global-set-key (kbd "C-c C-r") 'ivy-resume)
-      (global-set-key (kbd "<f6>") 'ivy-resume)
-      (global-set-key (kbd "M-x") 'counsel-M-x)
-      ;;; C-M-j (ivy-immediate-done)
-      ;;;
-      ;;; Exits with the current input instead of the current
-      ;;; candidate (like other commands).
-      ;;;
-      ;;;  This is useful e.g. when you call find-file to create a new
-      ;;;  file, but the desired name matches an existing file. In that
-      ;;;  case, using C-j would select that existing file, which isn't
-      ;;;  what you want - use this command instead.
-      (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-      (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-      (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-      (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
-      (global-set-key (kbd "<f1> l") 'counsel-find-library)
-      (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-      (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-      (global-set-key (kbd "C-c g") 'counsel-git)
-      (global-set-key (kbd "C-c j") 'counsel-git-grep)
-      (global-set-key (kbd "C-c k") 'counsel-ag)
-      (global-set-key (kbd "C-x l") 'counsel-locate)
-      (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-      (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
-  #+end_src
-
-
 ** Group related filesystem items into "Projects"
 
   Make it easier to navigate through related groups of files --
   projects.
 
   #+BEGIN_SRC emacs-lisp
-    (use-package projectile
-      :ensure t
-      :init
-      (setq projectile-enable-caching t)
-      (setq projectile-indexing-method 'alien)
-      (setq projectile-completion-system 'ivy)
-      (add-hook 'dired-mode-hook 'projectile-mode)
-      (add-hook 'elixir-mode-hook 'projectile-mode)
-      (add-hook 'js-mode-hook 'projectile-mode)
-      (add-hook 'ruby-mode-hook 'projectile-mode)
-      (add-hook 'web-mode-hook 'projectile-mode)
-      (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-      (projectile-global-mode)
-      (counsel-projectile-mode))
+      (use-package projectile
+        :ensure t
+        :bind-keymap
+        ("C-c p" . projectile-command-map)
+        :init
+        (setq projectile-enable-caching t)
+        (setq projectile-indexing-method 'alien)
+        (setq projectile-completion-system 'helm)
+        (setq projectile-switch-project-action 'helm-projectile)
+        (add-hook 'dired-mode-hook 'projectile-mode)
+        (add-hook 'elixir-mode-hook 'projectile-mode)
+        (add-hook 'js-mode-hook 'projectile-mode)
+        (add-hook 'ruby-mode-hook 'projectile-mode)
+        (add-hook 'web-mode-hook 'projectile-mode)
+        (projectile-global-mode))
   #+END_SRC
 
   Make it easier to navigate between related concepts in Rails
@@ -929,6 +843,76 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   (use-package projectile-rails
     :ensure t)
   #+END_SRC
+
+** Completion and narrowing selections
+
+  Use helm to interact with search results from "the silver searcher"
+
+  #+begin_src emacs-lisp
+    (use-package helm-ag
+      :ensure t)
+  #+end_src
+
+  Helm is an Emacs framework for incremental completions and narrowing
+  selections. It provides an easy-to-use API for developers wishing to
+  build their own Helm applications in Emacs, powerful search tools
+  and dozens of already built-in commands providing completion to
+  almost everything. It is a must-have for anyone using Emacs as a
+  main work environment.
+
+  #+begin_src emacs-lisp
+    (use-package helm
+      :ensure t
+      :bind (("C-x C-f" . helm-find-files)
+             ("C-x f" . helm-for-files)
+             ("M-x" . helm-M-x))
+      :init
+      (progn
+        (require 'helm-config)
+        (setq helm-candidate-number-limit 100)
+        (setq helm-ff-skip-boring-files t)
+        (setq helm-M-x-fuzzy-match t)))
+  #+end_src
+
+  Use helm to fuzzy navigate through projects.
+
+  #+begin_src emacs-lisp
+    (use-package helm-projectile
+      :ensure t
+      :config
+      (helm-projectile-on))
+  #+end_src
+
+  Interactively find and edit lines matching a search term
+
+  #+begin_src emacs-lisp
+    (use-package helm-swoop
+      :ensure t
+      :bind (("M-i" . 'helm-swoop)
+             ("M-I" . 'helm-swoop-back-to-last-point)
+             ("C-c M-i" . 'helm-multi-swoop)
+             ("C-x M-i" . 'helm-multi-swoop-all))
+      :init
+      ;; Save buffer when helm-multi-swoop-edit complete
+      (setq helm-multi-swoop-edit-save t)
+      ;; If this value is t, split window inside the current window
+      (setq helm-swoop-split-with-multiple-windows nil)
+      ;; If this value is t, split window inside the current window
+      (setq helm-swoop-split-with-multiple-windows nil)
+      ;; If you prefer fuzzy matching
+      (setq helm-swoop-use-fuzzy-match t)
+      :config
+      ;; When doing isearch, hand the word over to helm-swoop
+      (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+      ;; From helm-swoop to helm-multi-swoop-all
+      (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
+      ;; Instead of helm-multi-swoop-all, you can also use helm-multi-swoop-current-mode
+      (define-key helm-swoop-map (kbd "M-m") 'helm-multi-swoop-current-mode-from-helm-swoop)
+      (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
+      (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
+      (define-key helm-multi-swoop-map (kbd "C-r") 'helm-previous-line)
+      (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line))
+  #+end_src
 
 * Restclient
 
