@@ -1869,6 +1869,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        :ensure t)
    #+END_SRC
 
+* expand-region
+
+  Use expand region to expand selections with =C-== or contract them with =C-+=
+
+  #+begin_src emacs-lisp
+    (use-package expand-region
+      :ensure t
+      :bind (("C-=" . 'er/expand-region)
+             ("C--" . 'er/contract-region)))
+  #+end_src
 * Gist
 
   My memory is terrible. To supplement I tend to keep notes in
