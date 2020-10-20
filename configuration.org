@@ -94,13 +94,15 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 ** Initialize the color-theme
 
-   I prefer the [[https://github.com/morhetz/gruvbox][Gruvbox]] color theme
+   Taking [[https://github.com/emacsfodder/emacs-theme-darktooth][darktooth-theme]] for a spin after watching Sachs Chua's
+   [[https://emacsconf.org/2019/talks/02/][Emacsconf 2019 talk]].
 
    #+BEGIN_SRC emacs-lisp  (use-package gruvbox-theme
-     (use-package gruvbox-theme
+     (use-package darktooth-theme
        :ensure t
        :config
-       (load-theme 'gruvbox-dark-medium t))
+       (load-theme 'darktooth)
+       (darktooth-modeline-four))
    #+END_SRC
 
 ** Disable menu, toolbar, and scrollbar UI elements
