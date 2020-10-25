@@ -101,7 +101,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (use-package darktooth-theme
        :ensure t
        :config
-       (load-theme 'darktooth)
+       (load-theme 'darktooth t)
        (darktooth-modeline-four))
    #+END_SRC
 
