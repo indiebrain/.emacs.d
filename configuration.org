@@ -458,6 +458,23 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (add-to-list 'company-backends 'company-math-symbols-unicode))
   #+END_SRC
 
+* Agenda
+
+  Furthering the usefulness of =org-mode=, I've started using
+  =org-agenda= to organize my notes, events, etc. My current setup is
+  such that =~/org= is a symlink to a directory containing a
+  collection of =.org= files for general note taking, task logging,
+  scheduling, interview notes, etc. - the target directory of the
+  =~/org= symlink is automatically synced between all of my hosts.
+
+  #+begin_src emacs-lisp
+    (use-package org-agenda
+      :bind (
+             ("C-c a" . org-agenda))
+      :config
+      (setq org-agenda-files (quote ("~/org"))))
+  #+end_src
+
 * Auto Insert
 
   Automatically insert bits into buffers
