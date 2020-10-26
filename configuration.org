@@ -93,15 +93,24 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 ** Initialize the color-theme
 
-   Taking [[https://github.com/emacsfodder/emacs-theme-darktooth][darktooth-theme]] for a spin after watching Sachs Chua's
-   [[https://emacsconf.org/2019/talks/02/][Emacsconf 2019 talk]].
+   No matter which color schemes I try, I always come back to
+   gruvbox. Here I'm giving the =doom= version of the theme a try.
 
    #+BEGIN_SRC emacs-lisp  (use-package gruvbox-theme
-     (use-package darktooth-theme
+     (use-package all-the-icons
+       :ensure t)
+     ;;; (all-the-icons-install-fonts)
+
+     (use-package doom-themes
        :ensure t
        :config
-       (load-theme 'darktooth t)
-       (darktooth-modeline-four))
+       (load-theme 'doom-gruvbox t))
+
+     (use-package doom-modeline
+       :ensure t
+       :init
+       (doom-modeline-mode 1)
+       (setq doom-modeline-project-detection 'projectile))
    #+END_SRC
 
 ** Disable menu, toolbar, and scrollbar UI elements
