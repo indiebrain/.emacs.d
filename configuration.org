@@ -18,7 +18,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+BEGIN_SRC emacs-lisp
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                              ("melpa" . "https://melpa.org/packages/")
-                             ("marmalade" . "http://marmalade-repo.org")
                              ("org" . "http://orgmode.org/elpa/")))
   #+END_SRC
 
