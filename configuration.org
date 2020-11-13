@@ -36,6 +36,13 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
 * Path Management
 
+  Emacs 27 set the default directory to =/=, but I prefer to start my
+  Emacs sessions from the user's =$HOME= directory.
+
+  #+begin_src emacs-lisp
+    (setq default-directory "~/")
+  #+end_src
+
   The path must explicitly be loaded into Emacs on Mac OS X. NOTE: this
   happens automatically on Linux.
 
