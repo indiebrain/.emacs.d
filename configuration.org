@@ -726,9 +726,11 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   while. For now, instead of relying on the broken repo I'm going to
   tangle the source of the header2 package directly into my
   configuration.
-  #+begin_src emacs-lisp :tangle nil
+  #+begin_src emacs-lisp
     (use-package header2
       :ensure t
+      :defer t
+      :disable t
       :config
       (add-hook 'ruby-mode 'auto-make-header))
   #+end_src
