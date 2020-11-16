@@ -491,15 +491,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package company
-      :ensure t
-      :diminish company-mode
-      :bind ("C-:" . company-complete)
-      :init
-      (setq company-dabbrev-ignore-case t
-      company-show-numbers t)
-      (add-hook 'after-init-hook 'global-company-mode)
+      :bind (:map company-active-map
+             ("C-n" . company-select-next)
+             ("C-p" . company-select-previous)
+             ("C-:" . company-complete))
       :config
-      (add-to-list 'company-backends 'company-math-symbols-unicode))
+      (setq company-idle-delay 0.3)
+      (global-company-mode t))
+
   #+END_SRC
 
 * Agenda
