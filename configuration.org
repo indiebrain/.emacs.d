@@ -730,7 +730,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
     (use-package header2
       :ensure t
       :defer t
-      :disable t
+      :disabled t
       :config
       (add-hook 'ruby-mode 'auto-make-header))
   #+end_src
