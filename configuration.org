@@ -2158,7 +2158,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      (use-package magit
        :ensure t
        :commands magit-status magit-blame
-       :bind ("C-x g" . magit-status))
+       :bind ("C-x g" . magit-status)
+       :init
+       (defadvice magit-status (around magit-fullscreen activate)
+         (window-configuration-to-register :magit-fullscreen)
+         ad-do-it
+         (delete-other-windows))
+       (defadvice magit-quit-window (after magit-restore-screen activate)
+         (jump-to-register :magit-fullscreen)))
    #+END_SRC
 ** Forge
 
