@@ -2249,6 +2249,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
    #+END_SRC
 
+* Kubernetes
+
+  I've been working with Kubernets quite a bit. Here I turn Emacs
+  into a [[https://github.com/abrochard/kubel][fully-featured Kubernetes API client]].
+
+  #+begin_src emacs-lisp
+    (use-package kubel
+      :ensure t)
+  #+end_src
+
 * lsp-mode
 
   #+begin_src emacs-lisp
