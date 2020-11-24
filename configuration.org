@@ -103,6 +103,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    Let's try out Prot's =modus= themes!
 
    #+begin_src emacs-lisp
+     (setq modus-vivendi-theme-override-colors-alist
+           '(("bg-main" .  "#282828")
+             ("bg-alt"  .  "#323232")))
+
      (defmacro modus-themes-format-sexp (sexp &rest objects)
        `(eval (read (format ,(format "%S" sexp) ,@objects))))
 
