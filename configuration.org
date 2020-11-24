@@ -15,11 +15,11 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   Setup the package repositories. I use the canonical GNU repository, as
   well as a handful of community supported repositories.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                              ("melpa" . "https://melpa.org/packages/")
                              ("org" . "http://orgmode.org/elpa/")))
-  #+END_SRC
+  #+end_src
 
 ** =use-package=
 
@@ -27,12 +27,12 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   and load/configure packages lazily. This should be the only package
   that needs to be explicitly installed via the =package.el= manager.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (unless (package-installed-p 'use-package)
       (package-refresh-contents)
       (package-install 'use-package)
       (require 'use-package))
-  #+END_SRC
+  #+end_src
 
 * Path Management
 
@@ -46,7 +46,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   The path must explicitly be loaded into Emacs on Mac OS X. NOTE: this
   happens automatically on Linux.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package exec-path-from-shell
       :if (memq window-system '(mac ns x))
       :ensure t
@@ -54,7 +54,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (exec-path-from-shell-initialize)
       (setq exec-path (cons "/opt/local/bin" exec-path))
       (setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH"))))
-  #+END_SRC
+  #+end_src
 
 * UI Preferences
 
@@ -63,46 +63,46 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    I like a slightly larger than usual font. This little helper allows
    me to describe and set the font size in "points"
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun set-font-size (points)
        (interactive "n Font Size in Points: ")
        (cl-flet ((font-height (points) (* 10 points)))
          (set-face-attribute 'default nil :height (font-height points))))
 
      (set-font-size 14)
-   #+END_SRC
+   #+end_src
 
 ** Hide emacs startup message
 
    I don't find the emacs welcome message useful, so prevent it on startup.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq inhibit-startup-message t)
-   #+END_SRC
+   #+end_src
 
 ** Disable default scratch buffer message
 
    I don’t find the explanatory message of the scratch buffer useful, so don’t show it.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
   (setq initial-scratch-message "")
-   #+END_SRC
+   #+end_src
 
 ** Show the point's line and column numbers
 
    I don't use fringe line number, but I still like knowing the
    coordinates of my point. This enables the mode-line point coordinates.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (line-number-mode t)
      (column-number-mode t)
-   #+END_SRC
+   #+end_src
 
 ** Initialize the color-theme
 
    Let's try out Prot's =modus= themes!
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defmacro modus-themes-format-sexp (sexp &rest objects)
        `(eval (read (format ,(format "%S" sexp) ,@objects))))
 
@@ -147,14 +147,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
          (modus-operandi-theme-load)))
 
      (modus-vivendi-theme-load)
-   #+END_SRC
+   #+end_src
 
 ** Disable menu, toolbar, and scrollbar UI elements
 
    I don't use the menu or scrollbar UI elements so I disable them to
    get back some screen real estate
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package menu-bar
        :commands menu-bar-mode
        :init (menu-bar-mode -1))
@@ -169,22 +169,22 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (scroll-bar-mode -1)
        (when (fboundp 'horizontal-scroll-bar-mode)
    (horizontal-scroll-bar-mode -1)))
-   #+END_SRC
+   #+end_src
 
    Always highlight the current line of the point.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (global-hl-line-mode)
-   #+END_SRC
+   #+end_src
 
 ** Line Wrapping
 
    Use soft line wrapping for text modes
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (add-hook 'markdown-mode-hook 'visual-line-mode)
      (add-hook 'org-mode-hook 'visual-line-mode)
-   #+END_SRC
+   #+end_src
 
 ** Region Highlighting
 
@@ -202,10 +202,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    characters. As such, I use two white-space characters for
    indentation.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq-default tab-width 2)
      (setq-default indent-tabs-mode nil)
-   #+END_SRC
+   #+end_src
 
 ** Ensure that files end with a newline character
 
@@ -213,9 +213,9 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    which I do work and it doesn't hurt to make sure that the last
    character in any file is a \n character so I make it the default.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq require-final-newline t)
-   #+END_SRC
+   #+end_src
 
 ** Remove trailing whitespace on save
 
@@ -223,9 +223,9 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    introducing it so automatically trim trailing whitespace when a
    buffer is saved.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (add-hook 'before-save-hook 'whitespace-cleanup)
-   #+END_SRC
+   #+end_src
 
 ** Show and match bracket pairs
 
@@ -234,30 +234,30 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
    For example: [], (), {}, et cetera.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (show-paren-mode t)
      (electric-pair-mode t)
-   #+END_SRC
+   #+end_src
 
 ** Allow deletion of highlighted regions
 
    I like to be able to select a region and delete it.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (delete-selection-mode t)
-   #+END_SRC
+   #+end_src
 
 ** Undo
 
    I've oft found the default Emacs undo functionality gets a bit
    confusing when undo/redo comes into play. [[https://github.com/terryfinn][Terry]] agrees and uses undo-tree to get around this
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package undo-tree
        :ensure t
        :init
        (global-undo-tree-mode))
-   #+END_SRC
+   #+end_src
 
 ** Buffer lists
 
@@ -349,14 +349,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    resizing chords. [[https://github.com/terryfinn][Terry]] said "Give [[https://truongtx.me/2014/11/15/auto-resize-windows-by-golden-ratio-in-emacs][this]] a shot!" So I'm giving this
    a shot.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package golden-ratio
        :ensure t
        :init
        (setq split-width-threshold nil)
        :config
        (golden-ratio-mode 1))
-   #+END_SRC
+   #+end_src
 
 * Authentication
 
@@ -388,7 +388,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   emacs to redirect the generated files to a known directory when it
   auto-saves.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (make-directory "~/.emacs.d/autosaves/" t)
     (make-directory "~/.emacs.d/backups/" t)
 
@@ -396,16 +396,16 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
     (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
     (setq backup-directory-alist
     (quote ((".*" . "~/.emacs.d/backups/"))))
-  #+END_SRC
+  #+end_src
 
 ** Centralize =tramp= backups
 
    For the same reasons as auto-saves and backups, I keep backups from
    Tramp mode in the same centralized location.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq tramp-backup-directory-alist backup-directory-alist)
-   #+END_SRC
+   #+end_src
 
 ** Enable backups for files under version control
 
@@ -413,21 +413,21 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    don’t care about backups. Lets make sure they are still getting
    backed up.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq vc-make-backup-files t)
-   #+END_SRC
+   #+end_src
 
 ** Save on lose focus
 
    When I leave emacs or change a buffer, auto-save all open buffers.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package super-save
        :ensure t
        :init
        (super-save-mode t)
        (setq super-save-auto-save-when-idle t))
-   #+END_SRC
+   #+end_src
 
 * Better scrolling
 
@@ -437,13 +437,13 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    jumps too much too fast. This should make scrolling a little bit more
    smooth when in GUI emacs.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (when window-system
        (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
        (setq mouse-wheel-progressive-speed nil)
        (setq mouse-wheel-follow-mouse 't)
        (setq scroll-step 1))
-   #+END_SRC
+   #+end_src
 
 * Syntax checking
 
@@ -451,7 +451,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   does this well, and has many plugins that I can enable in other
   modes, so lets make sure it is installed and enabled here.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package flycheck
       :ensure t
       :init
@@ -463,14 +463,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
       (setq flycheck-javascript-eslint-executable "node_modules/.bin/eslint")
       (setq flycheck-ruby-rubocop-executable "bin/rubocop"))
-  #+END_SRC
+  #+end_src
 
 * Spell Checking
 
   I am prone to typos. Enable flyspell in textual contexts to help
   catch the times where I don't quite English so well.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package flyspell
       :diminish flyspell-mode
       :commands (flyspell-prog-mode flyspell-mode)
@@ -480,7 +480,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (add-hook 'markdown-mode-hook 'flyspell-mode)
       (add-hook 'org-mode-hook 'flyspell-mode)
       (add-hook 'text-mode-hook 'flyspell-mode))
-  #+END_SRC
+  #+end_src
 
 * Auto Complete
 
@@ -489,7 +489,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   =auto-complete=, but a friend has convinced me to try =company-mode=
   so let's give it a shot.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package company
       :bind (:map company-active-map
              ("C-n" . company-select-next)
@@ -499,7 +499,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (setq company-idle-delay 0.3)
       (global-company-mode t))
 
-  #+END_SRC
+  #+end_src
 
 * Agenda
 
@@ -2024,20 +2024,20 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
    [[https://github.com/dougm/bats-mode][bats-mode]] is an editing-mode and runner for BATS tests
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package bats-mode
        :ensure t)
-   #+END_SRC
+   #+end_src
 
 * CSS
 
   Seems css-mode ignores global indentations settings, so lets specifically set that now.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package css-mode
       :init
       (setq css-indent-offset 2))
-  #+END_SRC
+  #+end_src
 
 * Caddy
 
@@ -2066,10 +2066,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
   Working with Dockerfiles? Why not add syntax highlighting and the ability to build images with =C-c C-b=?
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package dockerfile-mode
       :ensure t)
-  #+END_SRC
+  #+end_src
 
 * Docker-tramp
 
@@ -2094,32 +2094,32 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   for it, but I don't yet have any fancy tooling or configuration for
   it.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package elixir-mode
       :ensure t)
-  #+END_SRC
+  #+end_src
 
 ** Embedded Elixir
 
    When working with Elixir templates, use =web-mode= for better
    syntax support.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package web-mode
        :ensure t
        :init
        :mode
        (("\\.eex$" . web-mode)))
-   #+END_SRC
+   #+end_src
 
 ** Tooling
 
    I'm trying out the =alchemist= package for additional Elixir language and tooling support.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package alchemist
        :ensure t)
-   #+END_SRC
+   #+end_src
 
 * expand-region
 
@@ -2140,10 +2140,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   NOTE: User authentication information is stored elsewhere as
   described in the [[https://github.com/defunkt/gist.el#gistel----emacs-integration-for-gistgithubcom][gist.el]] documentation.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package gist
       :ensure t)
-  #+END_SRC
+  #+end_src
 
 * Git
 
@@ -2154,7 +2154,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    the git Version Control System without lots of repetitive typing or
    cryptic aliases.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package magit
        :ensure t
        :commands magit-status magit-blame
@@ -2170,7 +2170,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        :config
        (remove-hook 'magit-refs-sections-hook 'magit-insert-remote-branches)
        (remove-hook 'magit-refs-sections-hook 'magit-insert-tags))
-   #+END_SRC
+   #+end_src
 ** Forge
 
    Forge allows you to work with Git forges, such as Github and
@@ -2192,12 +2192,12 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   I'm starting to dabble a bit with [[http://www.golang.org][go]]. Of course I want editor
   support.
 
-  #+BEGIN_SRC elisp
+  #+begin_src elisp
     (use-package go-mode
       :ensure t
       :config
       (add-hook 'before-save-hook #'gofmt-before-save))
-  #+END_SRC
+  #+end_src
 
 * GraphQL
 
@@ -2218,7 +2218,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
   Use the enhanced JavaScript editing mode - [[https://github.com/mooz/js2-mode][js2-mode]].
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package js2-mode
       :ensure t
       :interpreter
@@ -2228,13 +2228,13 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (setq js2-highlight-level 3)
       (setq js2-mode-show-parse-errors t)
       (setq js2-mode-show-strict-warnings t))
-  #+END_SRC
+  #+end_src
 
 ** React / JSX
 
    Add support for Facebook's XML-like JavaScript extensions to ECMAScript
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package rjsx-mode
        :ensure t
        :interpreter
@@ -2247,7 +2247,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (setq js2-mode-show-parse-errors t)
        (setq js2-mode-show-strict-warnings t))
 
-   #+END_SRC
+   #+end_src
 
 * Kubernetes
 
@@ -2269,7 +2269,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
     (use-package lsp-mode
       :ensure t
       :hook ((rust-mode . lsp-deferred))
-        :commands (lsp lsp-deferred))
+      :commands (lsp lsp-deferred))
   #+end_src
 
 * Markdown
@@ -2280,10 +2280,10 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   documentation in Markdown as it seems to be more portable and
   completely unavoidable.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package markdown-mode
       :ensure t)
-  #+END_SRC
+  #+end_src
 
 * Org
 
@@ -2295,7 +2295,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   see nested contexts by using different line heights for each
   indentation level.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package org
       :ensure org-plus-contrib
       :init
@@ -2315,21 +2315,21 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
             '(("TODO" :foreground "green" :weight bold)
               ("STARTED" :foreground "orange" :weight bold)
               ("DONE" :foreground "red" :weight bold))))
-  #+END_SRC
+  #+end_src
 
   This takes org-mode bullet lists one step farther. It renders
   indentation level bullet headers so they look like a single bullet
   at the correct indentation level. The '*' characters are still
   there, but hidden through the magic of colors.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package org-bullets
       :ensure t
       :commands (org-bullets-mode)
       :init
       (add-hook 'org-mode-hook 'org-bullets-mode)
       (require 'ox-md))
-  #+END_SRC
+  #+end_src
 
 * Presentations
 
@@ -2343,140 +2343,140 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   to accompany my talks and removes a bit of complexity compared to the
   exporter pipeline I used to use.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package org-present
       :ensure t
       :config
       (add-hook 'org-present-mode-hook
-                   (lambda ()
-                     (org-present-big)
-                     (org-display-inline-images)
-                     (org-present-read-only)))
-         (add-hook 'org-present-mode-quit-hook
-                   (lambda ()
-                     (org-present-small)
-                     (org-remove-inline-images)
-                     (org-present-read-write))))
-  #+END_SRC
+                (lambda ()
+                  (org-present-big)
+                  (org-display-inline-images)
+                  (org-present-read-only)))
+      (add-hook 'org-present-mode-quit-hook
+                (lambda ()
+                  (org-present-small)
+                  (org-remove-inline-images)
+                  (org-present-read-write))))
+  #+end_src
 
   Give myself the option of hiding the mode line while doing presentations.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package hide-mode-line
       :ensure t)
-  #+END_SRC
+  #+end_src
 
 * Project navigation
 
 ** Fuzzy searching names and content
 
-  Use [[https://github.com/ggreer/the_silver_searcher][The Silver Searcher]] to search through the contents of files.
-  #+begin_src emacs-lisp
-    ;; Search using "The silver searcher" (ag)
-    (use-package ag
-      :ensure t)
-  #+end_src
+   Use [[https://github.com/ggreer/the_silver_searcher][The Silver Searcher]] to search through the contents of files.
+   #+begin_src emacs-lisp
+     ;; Search using "The silver searcher" (ag)
+     (use-package ag
+       :ensure t)
+   #+end_src
 
 ** Group related filesystem items into "Projects"
 
-  Make it easier to navigate through related groups of files --
-  projects.
+   Make it easier to navigate through related groups of files --
+   projects.
 
-  #+BEGIN_SRC emacs-lisp
-      (use-package projectile
-        :ensure t
-        :bind-keymap
-        ("C-c p" . projectile-command-map)
-        :init
-        (setq projectile-enable-caching t)
-        (setq projectile-indexing-method 'alien)
-        (setq projectile-completion-system 'helm)
-        (setq projectile-switch-project-action 'helm-projectile)
-        (add-hook 'dired-mode-hook 'projectile-mode)
-        (add-hook 'elixir-mode-hook 'projectile-mode)
-        (add-hook 'js-mode-hook 'projectile-mode)
-        (add-hook 'ruby-mode-hook 'projectile-mode)
-        (add-hook 'web-mode-hook 'projectile-mode)
-        (projectile-global-mode))
-  #+END_SRC
+   #+begin_src emacs-lisp
+     (use-package projectile
+       :ensure t
+       :bind-keymap
+       ("C-c p" . projectile-command-map)
+       :init
+       (setq projectile-enable-caching t)
+       (setq projectile-indexing-method 'alien)
+       (setq projectile-completion-system 'helm)
+       (setq projectile-switch-project-action 'helm-projectile)
+       (add-hook 'dired-mode-hook 'projectile-mode)
+       (add-hook 'elixir-mode-hook 'projectile-mode)
+       (add-hook 'js-mode-hook 'projectile-mode)
+       (add-hook 'ruby-mode-hook 'projectile-mode)
+       (add-hook 'web-mode-hook 'projectile-mode)
+       (projectile-global-mode))
+   #+end_src
 
-  Make it easier to navigate between related concepts in Rails
-  projects.
+   Make it easier to navigate between related concepts in Rails
+   projects.
 
-  #+BEGIN_SRC emacs-lisp
-  (use-package projectile-rails
-    :ensure t)
-  #+END_SRC
+   #+begin_src emacs-lisp
+     (use-package projectile-rails
+       :ensure t)
+   #+end_src
 
 ** Completion and narrowing selections
 
-  Use helm to interact with search results from "the silver searcher"
+   Use helm to interact with search results from "the silver searcher"
 
-  #+begin_src emacs-lisp
-    (use-package helm-ag
-      :ensure t)
-  #+end_src
+   #+begin_src emacs-lisp
+     (use-package helm-ag
+       :ensure t)
+   #+end_src
 
-  Helm is an Emacs framework for incremental completions and narrowing
-  selections. It provides an easy-to-use API for developers wishing to
-  build their own Helm applications in Emacs, powerful search tools
-  and dozens of already built-in commands providing completion to
-  almost everything. It is a must-have for anyone using Emacs as a
-  main work environment.
+   Helm is an Emacs framework for incremental completions and narrowing
+   selections. It provides an easy-to-use API for developers wishing to
+   build their own Helm applications in Emacs, powerful search tools
+   and dozens of already built-in commands providing completion to
+   almost everything. It is a must-have for anyone using Emacs as a
+   main work environment.
 
-  #+begin_src emacs-lisp
-    (use-package helm
-      :ensure t
-      :bind (("C-x C-f" . helm-find-files)
-             ("C-x f" . helm-for-files)
-             ("M-x" . helm-M-x))
-      :init
-      (progn
-        (require 'helm-config)
-        (setq helm-candidate-number-limit 100)
-        (setq helm-ff-skip-boring-files t)
-        (setq helm-M-x-fuzzy-match t)))
-  #+end_src
+   #+begin_src emacs-lisp
+     (use-package helm
+       :ensure t
+       :bind (("C-x C-f" . helm-find-files)
+              ("C-x f" . helm-for-files)
+              ("M-x" . helm-M-x))
+       :init
+       (progn
+         (require 'helm-config)
+         (setq helm-candidate-number-limit 100)
+         (setq helm-ff-skip-boring-files t)
+         (setq helm-M-x-fuzzy-match t)))
+   #+end_src
 
-  Use helm to fuzzy navigate through projects.
+   Use helm to fuzzy navigate through projects.
 
-  #+begin_src emacs-lisp
-    (use-package helm-projectile
-      :ensure t
-      :config
-      (helm-projectile-on))
-  #+end_src
+   #+begin_src emacs-lisp
+     (use-package helm-projectile
+       :ensure t
+       :config
+       (helm-projectile-on))
+   #+end_src
 
-  Interactively find and edit lines matching a search term
+   Interactively find and edit lines matching a search term
 
-  #+begin_src emacs-lisp
-    (use-package helm-swoop
-      :ensure t
-      :bind (("M-i" . 'helm-swoop)
-             ("M-I" . 'helm-swoop-back-to-last-point)
-             ("C-c M-i" . 'helm-multi-swoop)
-             ("C-x M-i" . 'helm-multi-swoop-all))
-      :init
-      ;; Save buffer when helm-multi-swoop-edit complete
-      (setq helm-multi-swoop-edit-save t)
-      ;; If this value is t, split window inside the current window
-      (setq helm-swoop-split-with-multiple-windows nil)
-      ;; If this value is t, split window inside the current window
-      (setq helm-swoop-split-with-multiple-windows nil)
-      ;; If you prefer fuzzy matching
-      (setq helm-swoop-use-fuzzy-match t)
-      :config
-      ;; When doing isearch, hand the word over to helm-swoop
-      (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
-      ;; From helm-swoop to helm-multi-swoop-all
-      (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
-      ;; Instead of helm-multi-swoop-all, you can also use helm-multi-swoop-current-mode
-      (define-key helm-swoop-map (kbd "M-m") 'helm-multi-swoop-current-mode-from-helm-swoop)
-      (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
-      (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
-      (define-key helm-multi-swoop-map (kbd "C-r") 'helm-previous-line)
-      (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line))
-  #+end_src
+   #+begin_src emacs-lisp
+     (use-package helm-swoop
+       :ensure t
+       :bind (("M-i" . 'helm-swoop)
+              ("M-I" . 'helm-swoop-back-to-last-point)
+              ("C-c M-i" . 'helm-multi-swoop)
+              ("C-x M-i" . 'helm-multi-swoop-all))
+       :init
+       ;; Save buffer when helm-multi-swoop-edit complete
+       (setq helm-multi-swoop-edit-save t)
+       ;; If this value is t, split window inside the current window
+       (setq helm-swoop-split-with-multiple-windows nil)
+       ;; If this value is t, split window inside the current window
+       (setq helm-swoop-split-with-multiple-windows nil)
+       ;; If you prefer fuzzy matching
+       (setq helm-swoop-use-fuzzy-match t)
+       :config
+       ;; When doing isearch, hand the word over to helm-swoop
+       (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+       ;; From helm-swoop to helm-multi-swoop-all
+       (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
+       ;; Instead of helm-multi-swoop-all, you can also use helm-multi-swoop-current-mode
+       (define-key helm-swoop-map (kbd "M-m") 'helm-multi-swoop-current-mode-from-helm-swoop)
+       (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
+       (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
+       (define-key helm-multi-swoop-map (kbd "C-r") 'helm-previous-line)
+       (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line))
+   #+end_src
 
 * Restclient
 
@@ -2485,33 +2485,33 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   fire =curl= commands. This installs the an http client -
   [[https://github.com/pashky/restclient.el][restclient]] - that I can use straight from a buffer.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package restclient
-       :mode
-       ("\\.rest$" . restclient-mode)
-       ("\\.restclient$" . restclient-mode)
+      :mode
+      ("\\.rest$" . restclient-mode)
+      ("\\.restclient$" . restclient-mode)
       :ensure t)
-  #+END_SRC
+  #+end_src
 
   Furthermore, integrate =restclient= mode in to org documents via org-babel
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package ob-restclient
       :ensure t)
 
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((restclient . t)))
-  #+END_SRC
+  #+end_src
 
 * Regular Expressions
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package re-builder
       :ensure t
       :config
       (setq reb-re-syntax 'string))
-  #+END_SRC
+  #+end_src
 
 * Ruby
 
@@ -2547,7 +2547,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
      end
    #+END_EXAMPLE
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package ruby-mode
        :ensure t
        :bind (("C-c C-c" . xmp)
@@ -2998,28 +2998,28 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
             ))
 
          (provide 'rcodetools)))
-   #+END_SRC
+   #+end_src
 
 ** rbenv
 
    I use [[http://rbenv.org/][rbenv]] to manage my ruby versions. Here I make emacs rbenv aware.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package rbenv
        :ensure t
        :init
        (setq rbenv-installation-dir (file-chase-links "/usr/local/opt/rbenv")))
-  #+END_SRC
+   #+end_src
 
 ** ruby-end
 
    Similar to electric-paren, ruby-end takes care of automatically
    inserting end to close blocks, methods, and conditionals.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package ruby-end
        :ensure t)
-   #+END_SRC
+   #+end_src
 
 ** rspec
 
@@ -3028,7 +3028,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
    specs. This also enables debugging in emacs with tools like [[https://github.com/deivid-rodriguez/byebug][byebug]]
    and [[https://github.com/pry/pry][pry]].
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package rspec-mode
        :ensure t
        :init
@@ -3039,14 +3039,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
                    (company-mode -1)
                    (make-local-variable 'compilation-scroll-output)
                    (setq compilation-scroll-output 'first-error))))
-   #+END_SRC
+   #+end_src
 
 ** inf-ruby
 
    I want to be able to use the ruby REPL inside of emacs. This
    enables the "inferior ruby" mode
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package inf-ruby
        :ensure t
        :init
@@ -3055,27 +3055,27 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        (add-hook 'inf-ruby-mode-hook
                  (lambda ()
                    (company-mode -1))))
-   #+END_SRC
+   #+end_src
 
 ** erb
 
    Use =web-mode= to edit HTML ERB templates
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package web-mode
        :ensure t
        :mode
        ("\\html.erb$" . web-mode)
        :init
        (setq web-mode-markup-indent-offset 2))
-   #+END_SRC
+   #+end_src
 
 ** YAML
 
    I mostly run into YAML when dealing with ruby configuration. This
    makes it easier to work with and format YAML.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package yaml-mode
        :mode(
              ("\\.yml$" . yaml-mode)
@@ -3083,7 +3083,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
              ("\\.yml.erb$" . yaml-mode)
              ("\\.yaml.erb$" . yaml-mode))
        :ensure t)
-   #+END_SRC
+   #+end_src
 
 * Rust
 
@@ -3092,7 +3092,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   Go I'm going to invest some cycles trying to get to know this rust
   thing the kids are getting on about.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package flycheck-rust
       :ensure t
       :init
@@ -3105,14 +3105,14 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
       (add-hook 'before-save-hook
                 (lambda () (when (eq 'rust-mode major-mode)
                              (lsp-format-buffer)))))
-  #+END_SRC
+  #+end_src
 
   Add minor-mode for the rust package manager [[https://doc.rust-lang.org/stable/cargo/][cargo]]
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package cargo
       :ensure t)
-  #+END_SRC
+  #+end_src
 
 * Shell
 
@@ -3162,7 +3162,7 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   necessary configuration to automate the generation and publishing
   process.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package org-page
       ;;:disabled
       :ensure t
@@ -3191,34 +3191,34 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
   I am human, sometimes I'm not as effective at expressing my ideas clearly in text. I use [[https://github.com/bnbeckwith/writegood-mode][writegood-mode]] to help me.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package writegood-mode
       :ensure t)
-  #+END_SRC
+  #+end_src
 
 * SASS
 
   Prevent =sass-mode= from compiling sass files on save
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package sass-mode
       :ensure t
       :init
       (setq-default scss-compile-at-save nil))
-  #+END_SRC
+  #+end_src
 
 * web-mode
 
   When working with HTML templates, let's use an indentation style
   that's consistent with other coding indentation rules.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package web-mode
-       :ensure t
-       :init
-       (setq web-mode-markup-indent-offset 2)
-       (setq web-mode-css-indent-offset 2)
-       (setq web-mode-code-indent-offset 2)
-       (setq web-mode-indent-style 2)
-       (setq web-mode-block-padding 2))
-   #+END_SRC
+  #+begin_src emacs-lisp
+    (use-package web-mode
+      :ensure t
+      :init
+      (setq web-mode-markup-indent-offset 2)
+      (setq web-mode-css-indent-offset 2)
+      (setq web-mode-code-indent-offset 2)
+      (setq web-mode-indent-style 2)
+      (setq web-mode-block-padding 2))
+  #+end_src
