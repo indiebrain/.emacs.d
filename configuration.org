@@ -2029,6 +2029,68 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
        :ensure t)
    #+end_src
 
+* Capture
+
+  Quickly capture notes, tasks, and other misc agenda items
+
+  #+begin_src emacs-lisp
+    (use-package org-capture
+      :after org
+      :bind ("C-c c" . org-capture)
+      :config
+      (setq org-capture-templates
+            `(("a" "Article to write" entry
+               (file+headline "tasks.org" "Writing list")
+               ,(concat "* WRITE %^{Title} %^g\n"
+                        "SCHEDULED: %^t\n"
+                        ":PROPERTIES:\n"
+                        ":CAPTURED: %U\n:END:\n\n"
+                        "%i%?"))
+              ("b" "Basic task for future review" entry
+               (file+headline "tasks.org" "Basic tasks that need to be reviewed")
+               ,(concat "* %^{Title}\n"
+                        ":PROPERTIES:\n"
+                        ":CAPTURED: %U\n"
+                        ":END:\n\n"
+                        "%i%l"))
+              ("w" "Work")
+              ("wt" "Task or assignment" entry
+               (file+headline "work.org" "Tasks and assignments")
+               ,(concat "* TODO [#A] %^{Title} :@work:\n"
+                        "SCHEDULED: %^t\n"
+                        ":PROPERTIES:\n:CAPTURED: %U\n:END:\n\n"
+                        "%i%?"))
+              ("wm" "Meeting, event, appointment" entry
+               (file+headline "work.org" "Meetings, events, and appointments")
+               ,(concat "* MEET [#A] %^{Title} :@work:\n"
+                        "SCHEDULED: %^T\n"
+                        ":PROPERTIES:\n"
+                        ":CAPTURED: %U\n:END:\n\n"
+                        "%i%?"))
+              ("t" "Task with a due date" entry
+               (file+headline "tasks.org" "Task list with a date")
+               ,(concat "* %^{Scope of task||TODO|STUDY|MEET} %^{Title} %^g\n"
+                        "SCHEDULED: %^t\n"
+                        ":PROPERTIES:\n:CAPTURED: %U\n:END:\n\n"
+                        "%i%?"))
+              ("r" "Reply to an email" entry
+               (file+headline "tasks.org" "Mail correspondence")
+               ,(concat "* TODO [#B] %:subject :mail:\n"
+                        "SCHEDULED: %t\n:"
+                        "PROPERTIES:\n:CONTEXT: %a\n:END:\n\n"
+                        "%i%?"))))
+
+      (setq org-capture-templates-contexts
+            '(("r" ((in-mode . "gnus-article-mode")
+                    (in-mode . "gnus-summary-mode")))))
+
+      (defun contrib/org-capture-no-delete-windows (oldfun args)
+        (cl-letf (((symbol-function 'delete-other-windows) 'ignore))
+          (apply oldfun args)))
+
+      (advice-add 'org-capture-place-template
+                  :around 'contrib/org-capture-no-delete-windows))
+  #+end_src
 * CSS
 
   Seems css-mode ignores global indentations settings, so lets specifically set that now.
@@ -2298,23 +2360,96 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
   #+begin_src emacs-lisp
     (use-package org
       :ensure org-plus-contrib
-      :init
-      (package-initialize)
       :config
-      (set-face-attribute 'org-level-1 nil :height 2.0)
-      (set-face-attribute 'org-level-2 nil :height 1.75)
-      (set-face-attribute 'org-level-3 nil :height 1.65)
-      (set-face-attribute 'org-level-4 nil :height 1.55)
-      (set-face-attribute 'org-level-5 nil :height 1.5)
+      ;; agenda and basic directory structure
+      (setq org-directory "~/Org")
+      (setq org-default-notes-file "~/Org/notes.org")
+      (setq org-agenda-files
+            '("~/Org"
+              "~/.emacs.d"
+              "~/Documents"))
+      ;; refile, todo
+      (setq org-refile-targets
+            '((org-agenda-files . (:maxlevel . 2))
+              (nil . (:maxlevel . 2))))
+      (setq org-refile-use-outline-path t)
+      (setq org-refile-allow-creating-parent-nodes 'confirm)
+      (setq org-refile-use-cache t)
+      (setq org-reverse-note-order nil)
       (setq org-todo-keywords
-            '((sequence "TODO"
-                        "STARTED"
-                        "|"
-                        "DONE")))
+            '((sequence "TODO(t)" "|" "DONE(D)" "CANCEL(C)")
+              (sequence "MEET(m)" "|" "MET(M)")
+              (sequence "STUDY(s)" "|" "STUDIED(S)")
+              (sequence "WRITE(w)" "|" "WROTE(W)")))
       (setq org-todo-keyword-faces
-            '(("TODO" :foreground "green" :weight bold)
-              ("STARTED" :foreground "orange" :weight bold)
-              ("DONE" :foreground "red" :weight bold))))
+            '(("MEET" . '(font-lock-preprocessor-face org-todo))
+              ("STUDY" . '(font-lock-variable-name-face org-todo))
+              ("WRITE" . '(font-lock-type-face org-todo))))
+      (setq org-priority-faces
+            '((?A . '(org-scheduled-today org-priority))
+              (?B . org-priority)
+              (?C . '(shadow org-priority))))
+      (setq org-fontify-done-headline nil)
+      (setq org-fontify-quote-and-verse-blocks t)
+      (setq org-fontify-whole-heading-line nil)
+      (setq org-fontify-whole-block-delimiter-line t)
+      (setq org-enforce-todo-dependencies t)
+      (setq org-enforce-todo-checkbox-dependencies t)
+      (setq org-track-ordered-property-with-tag t)
+      (setq org-highest-priority ?A)
+      (setq org-lowest-priority ?C)
+      (setq org-default-priority ?A)
+      ;; tags
+      (setq org-tag-alist                   ; TODO review org tag list
+            '((:startgroup)
+              ("@work")
+              ("@priv")
+              (:endgroup)
+              ("emacs")
+              ("modus")
+              ("politics")
+              ("economics")
+              ("philosophy")
+              ("paper")
+              ("book")
+              ("essay")
+              ("article")
+              ("mail")
+              ("website")))
+      ;; code blocks
+      (setq org-confirm-babel-evaluate nil)
+      ;; log
+      (setq org-log-done 'time)
+      (setq org-log-note-clock-out nil)
+      (setq org-log-redeadline nil)
+      (setq org-log-reschedule nil)
+      (setq org-read-date-prefer-future 'time)
+      ;; general
+      (setq org-adapt-indentation nil)      ; No, thanks!
+      (setq org-special-ctrl-a/e nil)
+      (setq org-special-ctrl-k nil)
+      (setq org-M-RET-may-split-line '((default . nil)))
+      (setq org-hide-emphasis-markers t)
+      (setq org-hide-macro-markers t)
+      (setq org-hide-leading-stars nil)
+      (setq org-structure-template-alist    ; CHANGED in Org 9.3, Emacs 27.1
+            '(("s" . "src")
+              ("E" . "src emacs-lisp")
+              ("e" . "example")
+              ("q" . "quote")
+              ("v" . "verse")
+              ("V" . "verbatim")
+              ("c" . "center")
+              ("C" . "comment")))
+      (setq org-catch-invisible-edits 'show)
+      (setq org-return-follows-link nil)
+      (setq org-loop-over-headlines-in-active-region 'start-level)
+      (setq org-imenu-depth 7)
+      (setq org-modules '(ol-gnus ol-info ol-eww))
+      :bind (:map org-mode-map
+                  ("<C-return>" . nil)
+                  ("<C-S-return>" . nil)))
+
   #+end_src
 
   This takes org-mode bullet lists one step farther. It renders
