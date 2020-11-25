@@ -104,8 +104,12 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
    #+begin_src emacs-lisp
      (setq modus-vivendi-theme-override-colors-alist
-           '(("bg-main" .  "#282828")
-             ("bg-alt"  .  "#323232")))
+           '(("bg-main" .  "#272727")
+             ("bg-alt"  .  "#655b53")))
+
+     (setq modus-operandi-theme-override-colors-alist
+           '(("bg-main" .  "#eee8d5")
+             ("bg-alt"  .  "#fdf6e3")))
 
      (defmacro modus-themes-format-sexp (sexp &rest objects)
        `(eval (read (format ,(format "%S" sexp) ,@objects))))
