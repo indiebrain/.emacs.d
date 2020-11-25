@@ -2647,7 +2647,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
   #+begin_src emacs-lisp
     (use-package re-builder
-      :ensure t
       :config
       (setq reb-re-syntax 'string))
   #+end_src
@@ -2688,7 +2687,6 @@ started with Org mode" [[https://www.youtube.com/watch?v%3DSzA2YODtgK4][talk]].
 
    #+begin_src emacs-lisp
      (use-package ruby-mode
-       :ensure t
        :bind (("C-c C-c" . xmp)
               ("M-<down>" . ruby-forward-sexp)
               ("M-<up>" . ruby-backward-sexp)
