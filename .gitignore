@@ -17,4 +17,10 @@ url*
 history
 request/
 /recentf
-bookmarks
+/bookmarks
+/custom.el
+/package-quickstart.el
+/emacs-init.el
+/.org-id-locations
+/savehist
+/saveplace
