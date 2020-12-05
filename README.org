@@ -4,6 +4,12 @@
 
 This repository holds my emacs configuration.
 
+* *DEPRECATION NOTICE*
+
+This repository is no longer maintained. 
+
+I've moved my Emacs configuration into [[https://github.com/indiebrain/.files][my dotfiles repository]] and will continue its evolution there.
+
 * Installation
 
 1. Clone this repository
