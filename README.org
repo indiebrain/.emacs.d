@@ -8,7 +8,7 @@ This repository holds my emacs configuration.
 
 This repository is no longer maintained. 
 
-I've moved my Emacs configuration into [[https://github.com/indiebrain/.files][my dotfiles repository]] and will continue its evolution there.
+I've moved my Emacs configuration into [[https://github.com/indiebrain/.files][my dotfiles repository]] and will continue its evolution there. This repository is retained for the convenience of those brave folks who've forked it in the past. 
 
 * Installation
 
